@@ -21,15 +21,35 @@
 #include "driverlib/sysctl.h"
 #include "driverlib/interrupt.h"
 
-/********************
- * MACRO DEFINITIONS
- ********************/
+/**********************************************
+ * GLOBAL & MACRO DEFINITIONS
+ **********************************************/
+#define LEDRED   	0x02
+#define LEDBLUE  	0x04
+#define LEDVIOLET	0x06
+#define LEDGREEN 	0x08
+#define LEDYELLOW	0x0A
+#define LEDWHITE	0x0E
 
+uint32_t ui32Pulso;
+uint8_t ui8Tempo;
+
+void GPIOFIntHandler(void) {
+	//CLEAR INTERRUPT FLAG
+	GPIOIntClear(GPIO_PORTF_BASE, GPIO_INT_PIN_4);
+
+	if(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0)) {
+		ui32Pulso++;
+		/*GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDGREEN);
+		SysCtlDelay(10000000);
+		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDBLUE);
+		SysCtlDelay(10000000);
+		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);*/
+	}
+}
 /************
  * MAIN LOOP
  ************/
-uint32_t ui32Pulso;
-uint8_t ui8Tempo;
 int main(void) {
 	uint32_t ui32Period;
 	uint8_t flag;
@@ -43,6 +63,7 @@ int main(void) {
 	//ENABLE LEDs (PF1: RED | PF2: BLUE | PF3: GREEN)
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
+
 	//INPUTS: PD1 - ENABLE READ / PD2 - COUNT
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
 	//GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_1);
@@ -62,22 +83,23 @@ int main(void) {
 	UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200,
 		(UART_CONFIG_WLEN_8 | UART_CONFIG_PAR_NONE | UART_CONFIG_STOP_ONE));
 
-	//UNLOCK AND ENABLE SWITCHES
+	//UNLOCK AND ENABLE SWITCHES: SW1 = PF4 / SW2 = PF0
 	HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
 	HWREG(GPIO_PORTF_BASE + GPIO_O_CR) |= 0x01;
 	HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = 0;
 	GPIODirModeSet(GPIO_PORTF_BASE, GPIO_PIN_4|GPIO_PIN_0, GPIO_DIR_MODE_IN);
 	GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4|GPIO_PIN_0, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-	//CONFIGURE GPIO INTERRUPT
+	//CONFIGURE GPIO INTERRUPT (PF4 => SW1 PRESS AND RELEASE)
 	GPIOIntTypeSet(GPIO_PORTF_BASE,GPIO_PIN_4,GPIO_BOTH_EDGES);
+	GPIOIntRegister(GPIO_PORTF_BASE,GPIOFIntHandler);
 	GPIOIntEnable(GPIO_PORTF_BASE, GPIO_INT_PIN_4);
 
 	//ENABLE TIMER 0
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
 	TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 	//PERIOD: CLOCK_RATE / DESIRED FREQ. => 1/2 INTERRUPT
-	ui32Period = (SysCtlClockGet() / 1) / 512;
+	ui32Period = (SysCtlClockGet() / 1) / 4;//512;//2;
 	TimerLoadSet(TIMER0_BASE, TIMER_A, ui32Period -1);
 
 	//ENABLE TIMER INTERRUPT
@@ -99,20 +121,24 @@ int main(void) {
 	ui8Tempo = 0;
 	ui32Pulso = 0;
 	TimerDisable(TIMER0_BASE, TIMER_A);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1); 				     //LED START: RED
-	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, 0X00);
+
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0X00); 				         	 //LED START DOWN
+
+	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);		  							 		 //PD3 = 1 => CLOSE VALVE
+
 	while(1) {
-		if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0)) {
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1|GPIO_PIN_2);	 //LED SIGNAL: YELLOW
-			GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, 0X00);			  // OPEN VALVE
-			if(flag == 0x00) {											  //START READ CONDITION - F0X00
+
+		if(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0)) {												 //SW2 PRESS
+			if(flag == 0x00) {											  							 //START READ CONDITION - F0X00
+				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDYELLOW);	 		 //LED SIGNAL: YELLOW
+				GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, 0X00);			  						 //PD3 = 0 => OPEN VALVE
 				flag = 0x01;
 				ui8Tempo = 0;
 				ui32Pulso = 0;
 				TimerEnable(TIMER0_BASE, TIMER_A);
-			} else if (ui8Tempo >= 8){
-				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);               //LED START TX: DOWN
-				ui32Pulso = ui32Pulso/2;
+			} else if (ui8Tempo == 8) {
+				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);           //LED START TX: WHITE
+				//ui32Pulso = ui32Pulso/2;
 				memcpy(&CPulso,&ui32Pulso,4);
 				UARTCharPut(UART0_BASE,CPulso[3]);
 				UARTCharPut(UART0_BASE,CPulso[2]);
@@ -120,14 +146,14 @@ int main(void) {
 				UARTCharPut(UART0_BASE,CPulso[0]);
 			} else if (ui8Tempo >= 16) {
 				TimerDisable(TIMER0_BASE, TIMER_A);
-				SysCtlDelay(10000000);
-				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1);         //LED END TX: UP RED
+				//SysCtlDelay(10000000);
+				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDVIOLET);          //LED END TX: VIOLET
 				flag = 0x00;
 				SysCtlDelay(10000000);
 			}
-		} else {
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1|GPIO_PIN_3);	 //LED NO SIGNAL: RED
-			GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);		  // CLOSE VALVE
+		} else {																					  //SW2 RELEASE
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,LEDRED);	 		          //LED NO SIGNAL: RED
+			GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);		  							  //PD3 = 1 => CLOSE VALVE
 			ui8Tempo = 0;
 			ui32Pulso = 0;
 			flag = 0x00;
@@ -140,14 +166,4 @@ void Timer0IntHandler(void) {
 	//CLEAR INTERRUPT FLAG
 	TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 	ui8Tempo++;
-}
-
-void GPIOFIntHandler(void) {
-	//CLEAR INTERRUPT FLAG
-	GPIOIntClear(GPIO_PORTF_BASE, GPIO_INT_PIN_4);
-	if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0))  ui32Pulso++;
-	SysCtlDelay(10000000);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
-	SysCtlDelay(10000000);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_1);
 }
