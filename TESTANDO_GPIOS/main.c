@@ -47,13 +47,37 @@ void GPIOFIntHandler(void) {
 		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);*/
 	}
 }
+
+char *IntToStr(int value, char *s, int radix) //-> como funciona essa função? TODO
+{
+    const char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+    unsigned long ulvalue = value;
+    char *p = s, *q = s;
+    char temp;
+    if (radix == 10 && value < 0) {
+        *p++ = '-';
+        q = p;
+        ulvalue = -value;
+    }
+    do {
+        *p++ = digits[ulvalue % radix];
+        ulvalue /= radix;
+    } while (ulvalue > 0);
+    *p-- = '\0';
+    while (q < p) {
+        temp = *q;
+        *q++ = *p;
+        *p-- = temp;
+    }
+    return s;
+}
 /************
  * MAIN LOOP
  ************/
 int main(void) {
 	uint32_t ui32Period;
 	uint8_t flag;
-	unsigned char CPulso[4];
+	unsigned char CPulso[3];
 	/***************
 	* CONFIG BLOCK
 	****************/
@@ -99,7 +123,7 @@ int main(void) {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
 	TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 	//PERIOD: CLOCK_RATE / DESIRED FREQ. => 1/2 INTERRUPT
-	ui32Period = (SysCtlClockGet() / 1) / 4;//512;//2;
+	ui32Period = (SysCtlClockGet() / 1) / 4;//512;//2; //-> qual é o período?
 	TimerLoadSet(TIMER0_BASE, TIMER_A, ui32Period -1);
 
 	//ENABLE TIMER INTERRUPT
@@ -136,14 +160,24 @@ int main(void) {
 				ui8Tempo = 0;
 				ui32Pulso = 0;
 				TimerEnable(TIMER0_BASE, TIMER_A);
-			} else if (ui8Tempo == 8) {
+			} else if (ui8Tempo == 8 && flag == 0x01) {
 				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);           //LED START TX: WHITE
 				//ui32Pulso = ui32Pulso/2;
-				memcpy(&CPulso,&ui32Pulso,4);
-				UARTCharPut(UART0_BASE,CPulso[3]);
-				UARTCharPut(UART0_BASE,CPulso[2]);
-				UARTCharPut(UART0_BASE,CPulso[1]);
-				UARTCharPut(UART0_BASE,CPulso[0]);
+				//memcpy(&CPulso,&ui32Pulso,4);
+				//if(flag == 0x01) {
+					IntToStr(ui32Pulso,CPulso,10);
+					/*UARTCharPut(UART0_BASE,CPulso[3]);
+					UARTCharPut(UART0_BASE,CPulso[2]);
+					UARTCharPut(UART0_BASE,CPulso[1]);
+					UARTCharPut(UART0_BASE,CPulso[0]);*/
+					int ind = 0;
+					for(ind = 0; ind < 3; ind++)
+						UARTCharPut(UART0_BASE,CPulso[ind]);
+					UARTCharPut(UART0_BASE,'\r');
+					UARTCharPut(UART0_BASE,'\n');
+					flag = 0x02;
+				//}
+
 			} else if (ui8Tempo >= 16) {
 				TimerDisable(TIMER0_BASE, TIMER_A);
 				//SysCtlDelay(10000000);
