@@ -7,6 +7,9 @@ main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/yvals.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/linkage.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h
+main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdio.h
+main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h
+main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdlib.h
 main.obj: C:/ti/TivaWare/inc/hw_types.h
 main.obj: C:/ti/TivaWare/inc/hw_ints.h
 main.obj: C:/ti/TivaWare/inc/hw_gpio.h
@@ -28,6 +31,9 @@ C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/yvals.h:
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/linkage.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h: 
+C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdio.h: 
+C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h: 
+C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdlib.h: 
 C:/ti/TivaWare/inc/hw_types.h: 
 C:/ti/TivaWare/inc/hw_ints.h: 
 C:/ti/TivaWare/inc/hw_gpio.h: 

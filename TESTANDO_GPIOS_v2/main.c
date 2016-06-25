@@ -3,6 +3,8 @@
  ********************/
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define PART_TM4C123GH6PM
 //#define TARGET_IS_BLIZZARD_RB1
@@ -31,7 +33,7 @@
 #define LEDYELLOW	0x0A
 #define LEDWHITE	0x0E
 
-uint32_t ui32Pulso;
+uint16_t ui16Pulso;
 uint8_t ui8Tempo;
 
 void GPIODIntHandler(void) {
@@ -40,11 +42,11 @@ void GPIODIntHandler(void) {
 	GPIOIntClear(GPIO_PORTD_BASE, GPIO_INT_PIN_1);//2);
 
 	if(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0)) { //IF ENABLED (PF0/SW2 PRESSED)
-		ui32Pulso++;
+		ui16Pulso++;
 	}
 }
-
-char *IntToStr(int value, char *s, int radix) //-> como funciona essa função? TODO
+/*
+char *IntToStr(int value, char *s, int radix)
 {
     const char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
     unsigned long ulvalue = value;
@@ -67,13 +69,14 @@ char *IntToStr(int value, char *s, int radix) //-> como funciona essa função? TO
     }
     return s;
 }
+*/
 /************
  * MAIN LOOP
  ************/
 int main(void) {
 	uint32_t ui32Period;
 	uint8_t flag;
-	unsigned char CPulso[5];//[3];
+	char CPulso[5];//[3];
 	/***************
 	* CONFIG BLOCK
 	****************/
@@ -134,9 +137,6 @@ int main(void) {
 
 	IntMasterEnable();
 
-	// ENABLE THE RUN OF TIMER
-	//TimerEnable(TIMER0_BASE, TIMER_A);
-
 	//UART FIFO
 	UARTFIFOEnable(UART0_BASE);
 
@@ -145,7 +145,7 @@ int main(void) {
 	***********************/
 	flag = 0x00;
 	ui8Tempo = 0;
-	ui32Pulso = 0;
+	ui16Pulso = 0;
 	TimerDisable(TIMER0_BASE, TIMER_A);
 
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0X00); 				         	 //LED START DOWN
@@ -160,12 +160,14 @@ int main(void) {
 				GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, 0X00);			  						 //PD3 = 0 => OPEN VALVE
 				flag = 0x01;
 				ui8Tempo = 0;
-				ui32Pulso = 0;
+				ui16Pulso = 0;
 				TimerEnable(TIMER0_BASE, TIMER_A);
 			} else if (ui8Tempo == 8 && flag == 0x01) {                                              // MIDDLE OF COUNT / ONLY ONE TX WITH FLAG = 1
 				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);           //LED START TX: WHITE
 				//FREQUENCY = ui32Pulso / 16;
-				IntToStr(ui32Pulso,CPulso,10);
+				//IntToStr(ui32Pulso,CPulso,10);
+				//itoa(ui16Pulso,CPulso,10);
+				sprintf(CPulso,"%d",(ui16Pulso*2));
 				int ind = 0;
 				for(ind = 0; ind < 5; ind++)
 					UARTCharPut(UART0_BASE,CPulso[ind]);
@@ -174,7 +176,6 @@ int main(void) {
 				flag = 0x02;
 			} else if (ui8Tempo >= 16) {
 				TimerDisable(TIMER0_BASE, TIMER_A);
-				//SysCtlDelay(10000000);
 				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDVIOLET);          //LED END TX: VIOLET
 				flag = 0x00;
 				SysCtlDelay(10000000);
@@ -183,7 +184,7 @@ int main(void) {
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,LEDRED);	 		          //LED NO SIGNAL: RED
 			GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);		  							  //PD3 = 1 => CLOSE VALVE
 			ui8Tempo = 0;
-			ui32Pulso = 0;
+			ui16Pulso = 0;
 			flag = 0x00;
 		}
 	}
