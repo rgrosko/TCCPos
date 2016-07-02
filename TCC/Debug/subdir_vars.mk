@@ -13,7 +13,8 @@ C_SRCS += \
 ../lcd.c \
 ../main.c \
 ../sensor.c \
-../tm4c123ah6pm_startup_ccs.c 
+../tm4c123ah6pm_startup_ccs.c \
+../utils.c 
 
 OBJS += \
 ./adc.obj \
@@ -22,7 +23,8 @@ OBJS += \
 ./lcd.obj \
 ./main.obj \
 ./sensor.obj \
-./tm4c123ah6pm_startup_ccs.obj 
+./tm4c123ah6pm_startup_ccs.obj \
+./utils.obj 
 
 C_DEPS += \
 ./adc.pp \
@@ -31,7 +33,8 @@ C_DEPS += \
 ./lcd.pp \
 ./main.pp \
 ./sensor.pp \
-./tm4c123ah6pm_startup_ccs.pp 
+./tm4c123ah6pm_startup_ccs.pp \
+./utils.pp 
 
 C_DEPS__QUOTED += \
 "adc.pp" \
@@ -40,7 +43,8 @@ C_DEPS__QUOTED += \
 "lcd.pp" \
 "main.pp" \
 "sensor.pp" \
-"tm4c123ah6pm_startup_ccs.pp" 
+"tm4c123ah6pm_startup_ccs.pp" \
+"utils.pp" 
 
 OBJS__QUOTED += \
 "adc.obj" \
@@ -49,7 +53,8 @@ OBJS__QUOTED += \
 "lcd.obj" \
 "main.obj" \
 "sensor.obj" \
-"tm4c123ah6pm_startup_ccs.obj" 
+"tm4c123ah6pm_startup_ccs.obj" \
+"utils.obj" 
 
 C_SRCS__QUOTED += \
 "../adc.c" \
@@ -58,6 +63,7 @@ C_SRCS__QUOTED += \
 "../lcd.c" \
 "../main.c" \
 "../sensor.c" \
-"../tm4c123ah6pm_startup_ccs.c" 
+"../tm4c123ah6pm_startup_ccs.c" \
+"../utils.c" 
 
 

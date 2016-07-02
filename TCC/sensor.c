@@ -16,6 +16,7 @@
 
 
 #include "sensor.h"
+#include "utils.h"
 
 void Sensor_RequestHDT(void);
 

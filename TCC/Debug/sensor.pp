@@ -17,6 +17,7 @@ sensor.obj: C:/ti/TivaWare_C/driverlib/adc.h
 sensor.obj: ../sensor.h
 sensor.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/inttypes.h
 sensor.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_fmt_specifier.h
+sensor.obj: ../utils.h
 
 ../sensor.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -35,3 +36,4 @@ C:/ti/TivaWare_C/driverlib/adc.h:
 ../sensor.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/inttypes.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_fmt_specifier.h: 
+../utils.h: 

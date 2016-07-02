@@ -13,6 +13,7 @@ adc.obj: C:/ti/TivaWare_C/driverlib/sysctl.h
 adc.obj: C:/ti/TivaWare_C/driverlib/gpio.h
 adc.obj: C:/ti/TivaWare_C/driverlib/adc.h
 adc.obj: ../adc.h
+adc.obj: ../utils.h
 
 ../adc.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -27,3 +28,4 @@ C:/ti/TivaWare_C/driverlib/sysctl.h:
 C:/ti/TivaWare_C/driverlib/gpio.h: 
 C:/ti/TivaWare_C/driverlib/adc.h: 
 ../adc.h: 
+../utils.h: 

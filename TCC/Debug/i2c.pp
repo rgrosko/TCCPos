@@ -16,6 +16,7 @@ i2c.obj: C:/ti/TivaWare_C/driverlib/gpio.h
 i2c.obj: C:/ti/TivaWare_C/driverlib/i2c.h
 i2c.obj: C:/ti/TivaWare_C/driverlib/pin_map.h
 i2c.obj: ../i2c.h
+i2c.obj: ../utils.h
 
 ../i2c.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -33,3 +34,4 @@ C:/ti/TivaWare_C/driverlib/gpio.h:
 C:/ti/TivaWare_C/driverlib/i2c.h: 
 C:/ti/TivaWare_C/driverlib/pin_map.h: 
 ../i2c.h: 
+../utils.h: 

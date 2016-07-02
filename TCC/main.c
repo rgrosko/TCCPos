@@ -25,6 +25,7 @@
 #include "sensor.h"
 #include "bluetooth.h"
 #include "i2c.h"
+#include "utils.h"
 
 char tmp[20];
 
@@ -63,6 +64,7 @@ void ShowDateTime() {
 	DS1307_GetTime(tmp);
 	LCD_Write(tmp, 1);
 }
+
 
 void main(void) {
 	Inicia_Tiva();

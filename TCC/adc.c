@@ -15,6 +15,7 @@
 #include "driverlib/adc.h"
 
 #include "adc.h"
+#include "utils.h"
 
 static uint64_t TIMEOUT = 0;
 
@@ -66,4 +67,3 @@ int32_t ADC_Read(uint32_t sensor)
 	valor = ui32ADC0Value[0] / 12.23; //11.9;//12.52; //11.32;
 	return valor;
 }
-

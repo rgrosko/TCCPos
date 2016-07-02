@@ -32,7 +32,7 @@ void Bluetooth_Init(void)
 }
 
 void Bluetooth_EnviaValor(uint32_t valor) {
-	unsigned char temp[5];
+	char temp[5];
 	sprintf(temp,"%d",(valor));
 	int i = 0;
 	for (i = 0; i < 3; i++) {
@@ -40,7 +40,7 @@ void Bluetooth_EnviaValor(uint32_t valor) {
 	}
 }
 
-void Bluetooth_EniaDados(uint32_t valor, uint32_t data, uint32_t time)
+void Bluetooth_EnviaDados(uint32_t valor, uint32_t data, uint32_t time)
 {
 	//envia data
 	UARTCharPut(UART1_BASE, ' ');

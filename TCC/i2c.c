@@ -11,6 +11,7 @@
 #include "driverlib/pin_map.h"
 
 #include "i2c.h"
+#include "utils.h"
 
 #define DS1307_ADDRESS		0x68
 #define EEPROM_ADDRESS		0x50
