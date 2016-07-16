@@ -39,7 +39,7 @@ void ADC_Init()
 	ADCIntClear(ADC0_BASE, 0);
 
 	//configura ADC 1
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
+//	SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
 	ADCHardwareOversampleConfigure(ADC1_BASE, 64);
 	ADCSequenceDisable(ADC1_BASE, 0);
 	ADCSequenceConfigure(ADC1_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
@@ -64,6 +64,6 @@ int32_t ADC_Read(uint32_t sensor)
 	}
 
 	ADCSequenceDataGet(sensor, 0, ui32ADC0Value);
-	valor = ui32ADC0Value[0] / 12.23; //11.9;//12.52; //11.32;
+	valor = ui32ADC0Value[0] / 124;// / 12.23; //11.9;//12.52; //11.32;
 	return valor;
 }

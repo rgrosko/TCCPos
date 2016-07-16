@@ -2,17 +2,6 @@
 **** Build of configuration Debug for project TCC ****
 
 "C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
-'Building file: ../i2c.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare_C" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="i2c.pp"  "../i2c.c"
-'Finished building: ../i2c.c'
-' '
-'Building target: TCC.out'
-'Invoking: ARM Linker'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off -z -m"TCC.map" -i"C:/ti/ccsv5/tools/compiler/arm_5.1.1/lib" -i"C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="TCC_linkInfo.xml" --rom_model -o "TCC.out"  "./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./sensor.obj" "./main.obj" "./lcd.obj" "./i2c.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare_C\driverlib\ccs\Debug\driverlib.lib" 
-<Linking>
-warning #10210-D: creating ".stack" section with default size of 0x800; use the -stack option to change the default size
-'Finished building target: TCC.out'
-' '
+gmake: Nothing to be done for `all'.
 
 **** Build Finished ****
