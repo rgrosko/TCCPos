@@ -27,20 +27,24 @@ void LCD_Init (void)
 	int i;
 
 	// Habilita GPIOA e GPIOC
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
 
-	// Programa PA3 e PA2 como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_2 | GPIO_PIN_3);
+	// Programa como saída
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_3);
 
-	// Programa PC7, PC6, PC5 e PC4 como saída
+	// Programa como saída
 	GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7);
 
+	// Programa como saída
+	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_7);
+
 	// EN=1
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, 0x08);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x08);
 
 	// RS=0
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x00);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0x00);
 
 	for(i=0;i<3;i++)
 	{
@@ -72,20 +76,20 @@ void LCD_Init (void)
 void LCD_EN_Pulse (void)
 {
 	// EN=1
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, 0x08);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x08);
 
 	// Delay de ~20us
 	SysCtlDelay(333);
 
 	// EN=0
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, 0x00);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);
 }
 
 void LCD_Inst (unsigned char inst)
 {
 
 	//RS=0
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x00); //2 - RS  3 - E
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0x00); //2 - RS  3 - E
 
 	// Escreve 4 bits mais significativos de inst no Data (PC7-PC4)
 	char temp = (inst >> 4) * 0x10; //UP
@@ -111,7 +115,7 @@ void LCD_Inst (unsigned char inst)
 void LCD_Data (unsigned char data)
 {
 	//RS=1
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x04);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0x04);
 
 	// Escreve 4 bits mais significativos de inst no Data (PC7-PC4)
 	char temp = (data >> 4) * 0x10; //UP
@@ -187,6 +191,16 @@ void LCD_Process ()
 void LCD_Clear (void)
 {
 	LCD_Inst(0x01);
+}
+
+void LCD_BlackLight_Enable (void)
+{
+	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_7, 0x80);
+}
+
+void LCD_BlackLight_Disable (void)
+{
+	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_7, 0x00);
 }
 
 char *IntToStr(int value, char *s, int radix)

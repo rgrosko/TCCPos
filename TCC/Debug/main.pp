@@ -27,9 +27,6 @@ main.obj: C:/ti/TivaWare/driverlib/pin_map.h
 main.obj: C:/ti/TivaWare/driverlib/systick.h
 main.obj: ../lcd.h
 main.obj: ../adc.h
-main.obj: ../sensor.h
-main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/inttypes.h
-main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_fmt_specifier.h
 main.obj: ../bluetooth.h
 main.obj: ../i2c.h
 main.obj: ../utils.h
@@ -61,9 +58,6 @@ C:/ti/TivaWare/driverlib/pin_map.h:
 C:/ti/TivaWare/driverlib/systick.h: 
 ../lcd.h: 
 ../adc.h: 
-../sensor.h: 
-C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/inttypes.h: 
-C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_fmt_specifier.h: 
 ../bluetooth.h: 
 ../i2c.h: 
 ../utils.h: 

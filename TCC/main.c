@@ -22,7 +22,6 @@
 
 #include "lcd.h"
 #include "adc.h"
-#include "sensor.h"
 #include "bluetooth.h"
 #include "i2c.h"
 #include "utils.h"
@@ -53,10 +52,10 @@ void Inicia_Tiva() {
 	// Configura o clock para 50MHz
 	SysCtlClockSet(SYSCTL_SYSDIV_2 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ| SYSCTL_OSC_MAIN);
 //	LCD_Init();
-	ADC_Init();
-//	Bluetooth_Init();
+//	ADC_Init();
+	Bluetooth_Init();
 //	I2C_Init();
-	Timer_Init();
+//	Timer_Init();
 }
 
 void ShowDateTime() {
@@ -81,15 +80,19 @@ void main(void) {
 	Inicia_Tiva();
 //	ResetMem();
 
+//	LCD_BlackLight_Enable();
 //	LCD_Clear();
 //	LCD_Write("  Bem Vindo!!!", 0);
 //	LCD_Write("Medidor de agua!", 1);
-//	Delay(2000);
+	Delay(2000);
+//	LCD_BlackLight_Disable();
 //	LCD_Clear();
 
 	while(1) {
-		LeSensores();
+	//	LeSensores();
 		//ShowDateTime();
+		uint32_t t = 32;
+		Bluetooth_EnviaDados(t, t, t);
 	}
 }
 

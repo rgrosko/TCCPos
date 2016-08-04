@@ -12,5 +12,7 @@
 void Bluetooth_Init(void);
 void Bluetooth_EnviaDados(uint32_t valor, uint32_t data, uint32_t time);
 char* Bluetooth_RecebeDados(void);
+void Bluetooth_Enable(void);
+void Bluetooth_Disable(void);
 
 #endif /* BLUETOOTH_H_ */

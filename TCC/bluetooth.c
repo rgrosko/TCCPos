@@ -23,12 +23,18 @@ void Bluetooth_Init(void)
 {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);
 
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+
+	//Programa UART
 	GPIOPinConfigure(GPIO_PB0_U1RX);
 	GPIOPinConfigure(GPIO_PB1_U1TX);
 	GPIOPinTypeUART(GPIO_PORTB_BASE, GPIO_PIN_0 | GPIO_PIN_1);
 
-	UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 9600, UART_CONFIG_WLEN_8|UART_CONFIG_STOP_ONE|UART_CONFIG_PAR_NONE);
+	// Programa como saída
+	GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_5);
+
+	UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 115200, UART_CONFIG_WLEN_8|UART_CONFIG_STOP_ONE|UART_CONFIG_PAR_NONE);
 }
 
 void Bluetooth_EnviaValor(uint32_t valor) {
@@ -45,6 +51,16 @@ void Bluetooth_EnviaDados(uint32_t valor, uint32_t data, uint32_t time)
 	//envia data
 	UARTCharPut(UART1_BASE, ' ');
 	Bluetooth_EnviaValor(valor);
+}
+
+void Bluetooth_Enable(void)
+{
+	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_5, 0x20);
+}
+
+void Bluetooth_Disable(void)
+{
+	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_5, 0x00);
 }
 
 char* Bluetooth_RecebeDados(void)

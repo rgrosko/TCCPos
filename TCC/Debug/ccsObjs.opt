@@ -1,1 +1,1 @@
-"./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./sensor.obj" "./main.obj" "./lcd.obj" "./i2c.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare\driverlib\ccs\Debug\driverlib.lib" 
+"./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./main.obj" "./lcd.obj" "./i2c.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare\driverlib\ccs\Debug\driverlib.lib" 

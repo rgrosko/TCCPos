@@ -7,6 +7,8 @@ void LCD_WriteCol (char * txt, int row, int col);
 void LCD_Write (char * txt, int row);
 void LCD_Process (void);
 void LCD_Clear (void);
+void LCD_BlackLight_Enable (void);
+void LCD_BlackLight_Disable (void);
 char *IntToStr(int value, char *s, int radix);
 void stringcat(char text[20], int value, int line);
 
