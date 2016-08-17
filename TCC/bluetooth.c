@@ -34,7 +34,7 @@ void Bluetooth_Init(void)
 	// Programa como saída
 	GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_5);
 
-	UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 115200, UART_CONFIG_WLEN_8|UART_CONFIG_STOP_ONE|UART_CONFIG_PAR_NONE);
+	UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 9600, UART_CONFIG_WLEN_8|UART_CONFIG_STOP_ONE|UART_CONFIG_PAR_NONE);
 }
 
 void Bluetooth_EnviaValor(uint32_t valor) {
@@ -65,11 +65,15 @@ void Bluetooth_Disable(void)
 
 char* Bluetooth_RecebeDados(void)
 {
-	char *dado;
+	char dado[9]= "00000000";
+	char aux;
 	int index = 0;
 	while(UARTCharsAvail(UART1_BASE)){
-		dado[index] = UARTCharGet(UART1_BASE);
-		index++;
+		aux = UARTCharGet(UART1_BASE);
+		dado[index] = (aux - 0x30) + '0';
+	    index++;
 	}
+	dado[7] = 2 + '0';
+	dado[8] = '\0';
 	return dado;
 }

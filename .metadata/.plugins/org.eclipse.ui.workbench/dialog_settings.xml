@@ -2,4 +2,6 @@
 <section name="Workbench">
 	<section name="LicensetupDialog">
 	</section>
+	<section name="NewWizardAction">
+	</section>
 </section>

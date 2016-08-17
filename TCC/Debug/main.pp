@@ -7,8 +7,9 @@ main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/yvals.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/linkage.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h
-main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdlib.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/string.h
+main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdio.h
+main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h
 main.obj: C:/ti/TivaWare/utils/ustdlib.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h
 main.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/time.h
@@ -28,8 +29,10 @@ main.obj: C:/ti/TivaWare/driverlib/systick.h
 main.obj: ../lcd.h
 main.obj: ../adc.h
 main.obj: ../bluetooth.h
-main.obj: ../i2c.h
 main.obj: ../utils.h
+main.obj: ../monitorafluxo.h
+main.obj: ../i2cmod.h
+main.obj: ../i2cmod.h
 
 ../main.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -38,8 +41,9 @@ C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/yvals.h:
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/linkage.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h: 
-C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdlib.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/string.h: 
+C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdio.h: 
+C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h: 
 C:/ti/TivaWare/utils/ustdlib.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdarg.h: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/time.h: 
@@ -59,5 +63,7 @@ C:/ti/TivaWare/driverlib/systick.h:
 ../lcd.h: 
 ../adc.h: 
 ../bluetooth.h: 
-../i2c.h: 
 ../utils.h: 
+../monitorafluxo.h: 
+../i2cmod.h: 
+../i2cmod.h: 
