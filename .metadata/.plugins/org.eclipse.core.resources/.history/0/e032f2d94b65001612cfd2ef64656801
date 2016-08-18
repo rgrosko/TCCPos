@@ -10,9 +10,10 @@ ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./utils.obj" \
 "./tm4c123ah6pm_startup_ccs.obj" \
+"./monitorafluxo.obj" \
 "./main.obj" \
 "./lcd.obj" \
-"./i2c.obj" \
+"./i2cmod.obj" \
 "./bluetooth.obj" \
 "./adc.obj" \
 "../tm4c123ah6pm.cmd" \
@@ -129,8 +130,8 @@ TCC.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "TCC.out"
-	-$(RM) "adc.pp" "bluetooth.pp" "i2c.pp" "lcd.pp" "main.pp" "tm4c123ah6pm_startup_ccs.pp" "utils.pp" 
-	-$(RM) "adc.obj" "bluetooth.obj" "i2c.obj" "lcd.obj" "main.obj" "tm4c123ah6pm_startup_ccs.obj" "utils.obj" 
+	-$(RM) "adc.pp" "bluetooth.pp" "i2cmod.pp" "lcd.pp" "main.pp" "monitorafluxo.pp" "tm4c123ah6pm_startup_ccs.pp" "utils.pp" 
+	-$(RM) "adc.obj" "bluetooth.obj" "i2cmod.obj" "lcd.obj" "main.obj" "monitorafluxo.obj" "tm4c123ah6pm_startup_ccs.obj" "utils.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

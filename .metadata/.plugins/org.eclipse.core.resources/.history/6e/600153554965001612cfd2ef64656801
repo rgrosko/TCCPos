@@ -23,8 +23,9 @@
 #include "lcd.h"
 #include "adc.h"
 #include "bluetooth.h"
-#include "i2c.h"
 #include "utils.h"
+#include "monitorafluxo.h"
+#include "i2cmod.h"
 
 #define LEDRED   	0x02
 #define LEDBLUE  	0x04
@@ -65,13 +66,6 @@ void Inicia_Tiva() {
 	Timer_Init();
 }
 
-void ShowDateTime() {
-	DS1307_GetDate(tmp);
-	LCD_Write(tmp, 0);
-	DS1307_GetTime(tmp);
-	LCD_Write(tmp, 1);
-}
-
 void LeSensores() {
 
 	uint32_t rede = ADC_Read(ADC0_BASE);
@@ -97,6 +91,10 @@ void LeSensores() {
  void main(void) {
 	Inicia_Tiva();
 
+	REFTEMPO tempo;
+	uint8_t date[6] = {0x00,0x00,0x0C,0x12,0x08,0x10};
+	//StartMonit(date, &tempo);
+
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
@@ -110,31 +108,36 @@ void LeSensores() {
 //	LCD_BlackLight_Disable();
 //	LCD_Clear();
 
-	 const char* recebe;
+	 char* recebe;
+	 char test;
+	 int led = 0;
 
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDYELLOW);
 	Delay(1000);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
 
 	while(1) {
+		if(led > 6)
+			led = 0;
 		Delay(1000);
 	//	LeSensores();
 	//	ShowDateTime();
-		recebe = Bluetooth_RecebeDados();
 		Bluetooth_EnviaDados(1, 2, 3);
-		char* test = recebe[1];
-		if(test == "00000001")
+		recebe = Bluetooth_RecebeDados();
+		test =led + '0';// recebe[7];
+		if(test == '1')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDYELLOW);
-		else if(recebe == "00000002")
+		else if(test == '2')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDBLUE);
-		else if(recebe == "00000003")
+		else if(test == '3')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDGREEN);
-		else if(recebe == "00000004")
+		else if(test == '4')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDRED);
-		else if(recebe == "00000005")
+		else if(test == '5')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDVIOLET);
-		else if(recebe == "01234567")
+		else if(test == '6')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);
+		led++;
 	}
 }
 
