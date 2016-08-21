@@ -33,6 +33,7 @@ main.obj: ../utils.h
 main.obj: ../monitorafluxo.h
 main.obj: ../i2cmod.h
 main.obj: ../i2cmod.h
+main.obj: ../valvula.h
 
 ../main.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -67,3 +68,4 @@ C:/ti/TivaWare/driverlib/systick.h:
 ../monitorafluxo.h: 
 ../i2cmod.h: 
 ../i2cmod.h: 
+../valvula.h: 

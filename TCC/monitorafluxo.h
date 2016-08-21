@@ -16,8 +16,6 @@ typedef struct RefTempo {
 }REFTEMPO;
 
 void StartMonit(uint8_t datetime[6], REFTEMPO* atual); //INICIALIZACAO
-void OpenValve(void);            //SINAL PARA ABRIR A VALVULA: MANIPULA RELES, DURACAO DE 50ms
-void CloseValve(void);           //SINAL PARA FECHAR A VALVULA: MANIPULA RELES, DURACAO DE 50ms
 //VERIFICA PASSAGEM DE TEMPO PARA ESCREVER NA MEMORIA
 void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual); 
 //MONITORAMENTO ATRAVES DOS SINAIS E VARIAVEIS EXTERNAS

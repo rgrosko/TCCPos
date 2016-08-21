@@ -14,7 +14,8 @@ C_SRCS += \
 ../main.c \
 ../monitorafluxo.c \
 ../tm4c123ah6pm_startup_ccs.c \
-../utils.c 
+../utils.c \
+../valvula.c 
 
 OBJS += \
 ./adc.obj \
@@ -24,7 +25,8 @@ OBJS += \
 ./main.obj \
 ./monitorafluxo.obj \
 ./tm4c123ah6pm_startup_ccs.obj \
-./utils.obj 
+./utils.obj \
+./valvula.obj 
 
 C_DEPS += \
 ./adc.pp \
@@ -34,7 +36,8 @@ C_DEPS += \
 ./main.pp \
 ./monitorafluxo.pp \
 ./tm4c123ah6pm_startup_ccs.pp \
-./utils.pp 
+./utils.pp \
+./valvula.pp 
 
 C_DEPS__QUOTED += \
 "adc.pp" \
@@ -44,7 +47,8 @@ C_DEPS__QUOTED += \
 "main.pp" \
 "monitorafluxo.pp" \
 "tm4c123ah6pm_startup_ccs.pp" \
-"utils.pp" 
+"utils.pp" \
+"valvula.pp" 
 
 OBJS__QUOTED += \
 "adc.obj" \
@@ -54,7 +58,8 @@ OBJS__QUOTED += \
 "main.obj" \
 "monitorafluxo.obj" \
 "tm4c123ah6pm_startup_ccs.obj" \
-"utils.obj" 
+"utils.obj" \
+"valvula.obj" 
 
 C_SRCS__QUOTED += \
 "../adc.c" \
@@ -64,6 +69,7 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../monitorafluxo.c" \
 "../tm4c123ah6pm_startup_ccs.c" \
-"../utils.c" 
+"../utils.c" \
+"../valvula.c" 
 
 

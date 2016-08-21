@@ -8,6 +8,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/arm_5.1.1
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
+"./valvula.obj" \
 "./utils.obj" \
 "./tm4c123ah6pm_startup_ccs.obj" \
 "./monitorafluxo.obj" \
@@ -130,8 +131,8 @@ TCC.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "TCC.out"
-	-$(RM) "adc.pp" "bluetooth.pp" "i2cmod.pp" "lcd.pp" "main.pp" "monitorafluxo.pp" "tm4c123ah6pm_startup_ccs.pp" "utils.pp" 
-	-$(RM) "adc.obj" "bluetooth.obj" "i2cmod.obj" "lcd.obj" "main.obj" "monitorafluxo.obj" "tm4c123ah6pm_startup_ccs.obj" "utils.obj" 
+	-$(RM) "adc.pp" "bluetooth.pp" "i2cmod.pp" "lcd.pp" "main.pp" "monitorafluxo.pp" "tm4c123ah6pm_startup_ccs.pp" "utils.pp" "valvula.pp" 
+	-$(RM) "adc.obj" "bluetooth.obj" "i2cmod.obj" "lcd.obj" "main.obj" "monitorafluxo.obj" "tm4c123ah6pm_startup_ccs.obj" "utils.obj" "valvula.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -13,6 +13,7 @@
 #include "i2cmod.h"
 #include "monitorafluxo.h"
 #include "utils.h"
+#include "valvula.h"
 
 void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	B16 endereco;
@@ -144,32 +145,6 @@ void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	
 	endereco.word = ANOA;
 	EEPROM_Define(endereco.word, datetime[5] + decoff[9]);	
-} 
-
-void OpenValve(void) {
-	//ACIONA------------------------------------------
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x04); //OPEN1	
-	Delay(5);//DEFINIDO EM I2C
-	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_3, 0x08); //OPEN2
-	//DELAY-------------------------------------------
-	Delay(50);//DEFINIDO EM I2C
-	//RESETA------------------------------------------
-	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x00); //OPEN1	
-	Delay(5);//DEFINIDO EM I2C
-	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_3, 0x00); //OPEN2
-} 
-            
-void CloseValve(void) {
-	//ACIONA------------------------------------------
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x08); //CLOSE1	
-	Delay(5);//DEFINIDO EM I2C
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x02); //CLOSE2
-	//DELAY-------------------------------------------
-	Delay(50);//DEFINIDO EM I2C
-	//RESETA------------------------------------------
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x00); //CLOSE1	
-	Delay(5);//DEFINIDO EM I2C
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00); //CLOSE2
 } 
   
 void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {

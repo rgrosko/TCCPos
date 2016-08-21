@@ -26,6 +26,8 @@
 #include "utils.h"
 #include "monitorafluxo.h"
 #include "i2cmod.h"
+#include "utils.h"
+#include "valvula.h"
 
 /**********************************************
  * GLOBAL (INTERRUPTS VARS) & MACRO DEFINITIONS
@@ -140,52 +142,22 @@ void LeSensores() {
  void main(void) {
 	Inicia_Tiva();
 
-	//VIEW VARS P/ TESTE //////////
-	uint8_t data[3];
-	uint8_t hora[3];
-	DADOANUAL valor_anual;
-	DADOMEDIDA valor_diaria;
-	//VIEW VARS P/ TESTE //////////
-	REFTEMPO referencia;
-	uint8_t date[6] = {0x00,0x00,0x0C,0x12,0x08,0x10};
-	uint8_t modo_atual = START;
-	uint16_t leituras_salvas= 0;
-
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
 
-//	ResetMem();
 
-//	LCD_BlackLight_Enable();
-//	LCD_Clear();
-//	LCD_Write("  Bem Vindo!!!", 0);
-//	LCD_Write("Medidor de agua!", 1);
-//	Delay(2000);
+	LCD_BlackLight_Enable();
+	LCD_Clear();
+	LCD_Write("  Bem Vindo!!!", 0);
+	LCD_Write("Medidor de agua!", 1);
+	Delay(2000);
 //	LCD_BlackLight_Disable();
 //	LCD_Clear();
 
 	char* recebe;
 	char test;
 	int led = 0;
-
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDYELLOW);
-	Delay(1000);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
-	Delay(1000);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDBLUE);
-	StartMonit(date, &referencia);
-	Delay(1000);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
-
-	CloseValve();
-	//TESTES NA PLACA
-	//DS1307_GetDate(data);
-	//DS1307_GetTime(hora);
-	//->BREAKPOINT: VIEW VARS<-//
-//	valor_anual = EEPROM_PegaMedia(ANO1 + 1);
-//	valor_diaria = EEPROM_PegaLeitura(MES1 +3);
-	//->BREAKPOINT: VIEW VARS<-//
 
 	while(1) {
 		if(led > 6)
@@ -209,31 +181,6 @@ void LeSensores() {
 		else if(test == '6')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);
 		led++;
-		/*TESTE PARA FUNCAO DE MONITORAR FLUXO DE AGUA*********************************
-		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
-		if(*modo_atual == START)
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDYELLOW);	 		 //LED SIGNAL: YELLOW
-		else if(*modo_atual == ENABLED)	{
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDGREEN);           //LED START TX: WHITE
-			TimerEnable(TIMER0_BASE, TIMER_A);
-		} else if(*modo_atual == MIDDLE) {
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDVIOLET);          //LED END TX: VIOLET
-			if(GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5))
-				Bluetooth_EnviaDados(1, 2, 3);
-		} else if(*modo_atual == RESTART || *modo_atual == DISABLED) {
-			if(*modo_atual == DISABLED)
-				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,LEDRED);	 		 //LED NO SIGNAL: RED
-			else
-				GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,LEDBLUE);	 	 //LED NO SIGNAL: BLUE
-			TimerDisable(TIMER0_BASE, TIMER_A);
-			*modo_atual = START;
-			Delay(1);
-			//->BREAKPOINT: VIEW VARS<-//
-			valor_anual = EEPROM_PegaMedia(referencia.end_media);
-			valor_diaria = EEPROM_PegaLeitura(referencia.end_diaria);
-			//->BREAKPOINT: VIEW VARS<-//
-		}
-		*/
 	}
 }
 

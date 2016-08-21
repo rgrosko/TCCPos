@@ -19,6 +19,7 @@ monitorafluxo.obj: ../i2cmod.h
 monitorafluxo.obj: ../monitorafluxo.h
 monitorafluxo.obj: ../i2cmod.h
 monitorafluxo.obj: ../utils.h
+monitorafluxo.obj: ../valvula.h
 
 ../monitorafluxo.c: 
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/stdint.h: 
@@ -39,3 +40,4 @@ C:/ti/TivaWare/driverlib/pin_map.h:
 ../monitorafluxo.h: 
 ../i2cmod.h: 
 ../utils.h: 
+../valvula.h: 

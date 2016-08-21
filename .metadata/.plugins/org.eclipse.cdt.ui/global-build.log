@@ -1,75 +1,14 @@
 
-**** Clean-only build of configuration Debug for project TCC ****
+**** Build of configuration Debug for project TCC ****
 
-"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k clean 
-DEL /F  "TCC.out"
-NÆo foi poss¡vel encontrar C:\Users\B153PLUS\Desktop\Eletronica\TCCPos\TCC\Debug\TCC.out
-DEL /F "adc.pp" "bluetooth.pp" "i2cmod.pp" "lcd.pp" "main.pp" "monitorafluxo.pp" "tm4c123ah6pm_startup_ccs.pp" "utils.pp" 
-NÆo foi poss¡vel encontrar C:\Users\B153PLUS\Desktop\Eletronica\TCCPos\TCC\Debug\adc.pp
-DEL /F "adc.obj" "bluetooth.obj" "i2cmod.obj" "lcd.obj" "main.obj" "monitorafluxo.obj" "tm4c123ah6pm_startup_ccs.obj" "utils.obj" 
-NÆo foi poss¡vel encontrar C:\Users\B153PLUS\Desktop\Eletronica\TCCPos\TCC\Debug\adc.obj
-'Finished clean'
-' '
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
 
 **** Build Finished ****
 
 **** Build of configuration Debug for project TCC ****
 
 "C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
-'Building file: ../adc.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="adc.pp"  "../adc.c"
-'Finished building: ../adc.c'
-' '
-'Building file: ../bluetooth.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="bluetooth.pp"  "../bluetooth.c"
-"../bluetooth.c", line 78: warning #1132-D: returning pointer to local variable
-'Finished building: ../bluetooth.c'
-' '
-'Building file: ../i2cmod.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="i2cmod.pp"  "../i2cmod.c"
-'Finished building: ../i2cmod.c'
-' '
-'Building file: ../lcd.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="lcd.pp"  "../lcd.c"
-'Finished building: ../lcd.c'
-' '
-'Building file: ../main.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="main.pp"  "../main.c"
-"../main.c", line 144: warning #179-D: variable "data" was declared but never referenced
-"../main.c", line 145: warning #179-D: variable "hora" was declared but never referenced
-"../main.c", line 146: warning #179-D: variable "valor_anual" was declared but never referenced
-"../main.c", line 147: warning #179-D: variable "valor_diaria" was declared but never referenced
-"../main.c", line 151: warning #179-D: variable "modo_atual" was declared but never referenced
-"../main.c", line 152: warning #179-D: variable "leituras_salvas" was declared but never referenced
-"../main.c", line 168: warning #552-D: variable "recebe" was set but never used
-'Finished building: ../main.c'
-' '
-'Building file: ../monitorafluxo.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="monitorafluxo.pp"  "../monitorafluxo.c"
-'Finished building: ../monitorafluxo.c'
-' '
-'Building file: ../tm4c123ah6pm_startup_ccs.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="tm4c123ah6pm_startup_ccs.pp"  "../tm4c123ah6pm_startup_ccs.c"
-'Finished building: ../tm4c123ah6pm_startup_ccs.c'
-' '
-'Building file: ../utils.c'
-'Invoking: ARM Compiler'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me --include_path="C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --include_path="C:/ti/TivaWare" -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="utils.pp"  "../utils.c"
-'Finished building: ../utils.c'
-' '
-'Building target: TCC.out'
-'Invoking: ARM Linker'
-"C:/ti/ccsv5/tools/compiler/arm_5.1.1/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --define=PART_TM4C123GH6PM --diag_warning=225 --display_error_number --diag_wrap=off -z -m"TCC.map" -i"C:/ti/ccsv5/tools/compiler/arm_5.1.1/lib" -i"C:/ti/ccsv5/tools/compiler/arm_5.1.1/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="TCC_linkInfo.xml" --rom_model -o "TCC.out"  "./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./monitorafluxo.obj" "./main.obj" "./lcd.obj" "./i2cmod.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare\driverlib\ccs\Debug\driverlib.lib" 
-<Linking>
-warning #10210-D: creating ".stack" section with default size of 0x800; use the -stack option to change the default size
-'Finished building target: TCC.out'
-' '
+gmake: Nothing to be done for `all'.
 
 **** Build Finished ****

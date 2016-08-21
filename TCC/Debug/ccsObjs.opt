@@ -1,1 +1,1 @@
-"./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./monitorafluxo.obj" "./main.obj" "./lcd.obj" "./i2cmod.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare\driverlib\ccs\Debug\driverlib.lib" 
+"./valvula.obj" "./utils.obj" "./tm4c123ah6pm_startup_ccs.obj" "./monitorafluxo.obj" "./main.obj" "./lcd.obj" "./i2cmod.obj" "./bluetooth.obj" "./adc.obj" "../tm4c123ah6pm.cmd" -l"libc.a" -l"C:\ti\TivaWare\driverlib\ccs\Debug\driverlib.lib" 
