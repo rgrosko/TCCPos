@@ -37,20 +37,29 @@ void Bluetooth_Init(void)
 	UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 9600, UART_CONFIG_WLEN_8|UART_CONFIG_STOP_ONE|UART_CONFIG_PAR_NONE);
 }
 
-void Bluetooth_EnviaValor(uint32_t valor) {
-	char temp[5];
+void Bluetooth_EnviaValor(char* identificador, uint32_t valor) {
+	UARTCharPut(UART1_BASE, identificador[0]);
+
+	char temp[6] = "\0";
 	sprintf(temp,"%d",(valor));
 	int i = 0;
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < 6; i++) {
 		UARTCharPut(UART1_BASE, temp[i]);
 	}
+	UARTCharPut(UART1_BASE, '\n');
 }
 
-void Bluetooth_EnviaDados(uint32_t valor, uint32_t data, uint32_t time)
+void Bluetooth_EnviaDados(uint32_t valor, uint8_t * data, uint8_t * time)
 {
 	//envia data
-	UARTCharPut(UART1_BASE, ' ');
-	Bluetooth_EnviaValor(valor);
+	uint32_t temp;
+	temp = ((data[0] * 10000) + (data[1] * 100)) + data[2];
+	Bluetooth_EnviaValor("D", temp);
+
+	temp = ((time[0] * 10000) + (time[1] * 100)) + time[2];
+	Bluetooth_EnviaValor("T", temp);
+
+	Bluetooth_EnviaValor("M", valor);
 }
 
 void Bluetooth_Enable(void)
@@ -73,7 +82,6 @@ char* Bluetooth_RecebeDados(void)
 		dado[index] = (aux - 0x30) + '0';
 	    index++;
 	}
-	dado[7] = 2 + '0';
 	dado[8] = '\0';
 	return dado;
 }
