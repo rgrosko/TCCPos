@@ -62,6 +62,11 @@ void Bluetooth_EnviaDados(uint32_t valor, uint8_t * data, uint8_t * time)
 	Bluetooth_EnviaValor("M", valor);
 }
 
+void Bluetooth_EnviaMedicao(uint32_t valor)
+{
+	Bluetooth_EnviaValor("M", valor);
+}
+
 void Bluetooth_Enable(void)
 {
 	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_5, 0x20);
