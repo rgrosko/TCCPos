@@ -46,11 +46,11 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/B153PLUS/Desktop/Eletronica/TCCPos/TCC/main.c" title="main.c" tooltip="TCC/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TCC/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2001" selectionTopPixel="1320"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6405" selectionTopPixel="3086"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="monitorafluxo.c" partName="monitorafluxo.c" path="C:/Users/B153PLUS/Desktop/Eletronica/TCCPos/TCC/monitorafluxo.c" title="monitorafluxo.c" tooltip="TCC/monitorafluxo.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TCC/monitorafluxo.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="796" selectionTopPixel="180"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="monitorafluxo.h" partName="monitorafluxo.h" path="C:/Users/B153PLUS/Desktop/Eletronica/TCCPos/TCC/monitorafluxo.h" title="monitorafluxo.h" tooltip="TCC/monitorafluxo.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TCC/monitorafluxo.h"/>
@@ -58,11 +58,11 @@
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="i2cmod.c" partName="i2cmod.c" path="C:/Users/B153PLUS/Desktop/Eletronica/TCCPos/TCC/i2cmod.c" title="i2cmod.c" tooltip="TCC/i2cmod.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TCC/i2cmod.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="282" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="282" selectionTopPixel="300"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="i2cmod.h" partName="i2cmod.h" path="C:/Users/B153PLUS/Desktop/Eletronica/TCCPos/TCC/i2cmod.h" title="i2cmod.h" tooltip="TCC/i2cmod.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TCC/i2cmod.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="807" selectionTopPixel="210"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="807" selectionTopPixel="683"/>
 </editor>
 </editors>
 <views>
@@ -84,7 +84,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (3 items)"/>
+<category IMemento.internal.id="Warnings (5 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="543"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -687,7 +687,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.24946466" ratioLeft="233" ratioRight="701" relationship="4" relative="topLeft"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@17fd2e0" ratio="0.69900143" ratioLeft="490" ratioRight="211" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@17fd2e0" ratio="0.8067885" ratioLeft="309" ratioRight="74" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -730,164 +730,168 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/bluetooth.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/main.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.h"/>
 <editor factoryID="com.ti.ccstudio.resource.explorer.editor.elementFactory" id="com.ti.ccstudio.resource.explorer.editor.resourceExplorer" name="TI Resource Explorer"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/monitorafluxo.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TCC/i2cmod.h"/>
 </editors>
-<item historyLabel="bluetooth.h" index="1">
-<position info="not_deleted" x="233" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="543" y="0"/>
-</item>
-<item historyLabel="i2cmod.c" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="563" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="607" y="36"/>
-</item>
-<item historyLabel="i2cmod.c" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2672" y="0"/>
-</item>
-<item historyLabel="i2cmod.c" index="4">
-<position info="not_deleted" x="1080" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="807" y="0"/>
-</item>
-<item historyLabel="i2cmod.c" index="4">
-<position info="not_deleted" x="1080" y="0"/>
-</item>
-<item historyLabel="i2cmod.c" index="4">
-<position info="not_deleted" x="282" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="5364" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="807" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="5364" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="310" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2543" y="13"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="610" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1577" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="824" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="807" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="824" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="72" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2001" y="0"/>
-</item>
-<item historyLabel="i2cmod.h" index="5">
-<position info="not_deleted" x="807" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2001" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2028" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1577" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="278" y="10"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1577" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1577" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.h" index="3">
-<position info="not_deleted" x="285" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="320" y="10"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2117" y="0"/>
-</item>
-<item historyLabel="monitorafluxo.c" index="2">
-<position info="not_deleted" x="330" y="20"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2117" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2036" y="0"/>
-</item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="2111" y="0"/>
 </item>
-<item historyLabel="monitorafluxo.c" index="2">
+<item historyLabel="monitorafluxo.c" index="1">
 <position info="not_deleted" x="315" y="0"/>
 </item>
-<item historyLabel="monitorafluxo.c" index="2">
+<item historyLabel="monitorafluxo.c" index="1">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="main.c" index="6">
+<item historyLabel="main.c" index="2">
 <position info="not_deleted" x="2111" y="0"/>
 </item>
-<item historyLabel="monitorafluxo.h" index="7">
+<item historyLabel="monitorafluxo.h" index="3">
 <position info="not_deleted" x="285" y="0"/>
 </item>
-<item historyLabel="i2cmod.c" index="8">
+<item historyLabel="i2cmod.c" index="4">
 <position info="not_deleted" x="282" y="0"/>
 </item>
-<item historyLabel="i2cmod.h" index="9">
+<item historyLabel="i2cmod.h" index="5">
 <position info="not_deleted" x="807" y="0"/>
 </item>
-<item historyLabel="TI Resource Explorer" index="10"/>
-<item historyLabel="monitorafluxo.c" index="2">
+<item historyLabel="TI Resource Explorer" index="6"/>
+<item historyLabel="monitorafluxo.c" index="1">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="main.c" index="6">
+<item historyLabel="main.c" index="2">
 <position info="not_deleted" x="2001" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.h" index="8">
+<position info="not_deleted" x="285" y="0"/>
+</item>
+<item historyLabel="i2cmod.c" index="9">
+<position info="not_deleted" x="282" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="10">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="7">
+<position info="not_deleted" x="5714" y="311"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6545" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="7">
+<position info="not_deleted" x="5714" y="311"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6160" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="10">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6229" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="7">
+<position info="not_deleted" x="6367" y="278"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6510" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="7">
+<position info="not_deleted" x="6367" y="278"/>
+</item>
+<item historyLabel="monitorafluxo.h" index="8">
+<position info="not_deleted" x="285" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6510" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6752" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="5112" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="5103" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="4097" y="50"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="3913" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6582" y="58"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="11">
+<position info="not_deleted" x="6366" y="278"/>
+</item>
+<item historyLabel="monitorafluxo.h" index="12">
+<position info="not_deleted" x="285" y="0"/>
+</item>
+<item historyLabel="i2cmod.c" index="13">
+<position info="not_deleted" x="282" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="14">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="11">
+<position info="not_deleted" x="796" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6686" y="0"/>
+</item>
+<item historyLabel="i2cmod.c" index="13">
+<position info="not_deleted" x="282" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="14">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6701" y="0"/>
+</item>
+<item historyLabel="i2cmod.c" index="13">
+<position info="not_deleted" x="282" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="11">
+<position info="not_deleted" x="796" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6897" y="0"/>
+</item>
+<item historyLabel="monitorafluxo.c" index="11">
+<position info="not_deleted" x="796" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6265" y="0"/>
+</item>
+<item historyLabel="i2cmod.c" index="13">
+<position info="not_deleted" x="282" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="14">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item historyLabel="main.c" index="2">
+<position info="not_deleted" x="6265" y="0"/>
+</item>
+<item historyLabel="i2cmod.h" index="14">
+<position info="not_deleted" x="807" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="2">
+<position info="not_deleted" x="6265" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>

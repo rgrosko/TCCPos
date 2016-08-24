@@ -142,22 +142,50 @@ void LeSensores() {
  void main(void) {
 	Inicia_Tiva();
 
+	/*REFTEMPO tempo;
+	uint8_t date[6] = {0x00,0x00,0x00,0x00,0x00,0x00};
+	StartMonit(date, &tempo);*/
+	//VIEW VARS P/ TESTE //////////
+	uint8_t data[3];
+	uint8_t hora[3];
+	DADOANUAL valor_anual;
+	DADOMEDIDA valor_diaria;
+	//VIEW VARS P/ TESTE //////////
+	REFTEMPO referencia;
+	uint8_t date[6] = {0x00,0x00,0x0C,0x18,0x08,0x10};
+	uint8_t modo_atual = START;
+	uint16_t leituras_salvas= 0;
+
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
-
 
 	LCD_BlackLight_Enable();
 	LCD_Clear();
 	LCD_Write("  Bem Vindo!!!", 0);
 	LCD_Write("Medidor de agua!", 1);
 	Delay(2000);
+	//LCD_Write("BOOOORAAAAA", 2);
+	//LCD_Write("PPPPOOOOORRRA", 3);
 //	LCD_BlackLight_Disable();
 //	LCD_Clear();
 
 	char* recebe;
 	char test;
 	int led = 0;
+
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDBLUE);
+	StartMonit(date, &referencia);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x00);
+
+	//TESTES NA PLACA
+	DS1307_GetDate(data);
+	DS1307_GetTime(hora);
+	//->BREAKPOINT: VIEW VARS<-//
+	valor_anual = EEPROM_PegaMedia(ANO1 + 1);
+	valor_diaria = EEPROM_PegaLeitura(MES1 +3);
+	//->BREAKPOINT: VIEW VARS<-//
+	Delay(1);
 
 	while(1) {
 		if(led > 6)
@@ -181,6 +209,30 @@ void LeSensores() {
 		else if(test == '6')
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, LEDWHITE);
 		led++;
+
+		//PREPARA ESTRUTURA COM VALOR INICIAL
+		valor_anual.end.word = referencia.end_media.word;
+		valor_anual.acu_hi.word = 0x0000;
+		valor_anual.acu_lo.word = led;
+		valor_anual.cnt_ms.word = valor_anual.cnt_ms.word + 0x0001;
+		valor_anual.cnt_ag.word = valor_anual.cnt_ag.word + 0x0002;
+
+		DS1307_GetDate(data);
+		DS1307_GetTime(hora);
+		valor_diaria.end.word = referencia.end_diaria.word; //+5; //PRÓXIMO ENDEREÇO PARA SALVAR APÓS UMA HORA DE LEITURAS!
+		valor_diaria.datetime[0] = data[0]; //DIA
+		valor_diaria.datetime[1] = hora[0]; //HOR
+		valor_diaria.datetime[2] = hora[1]; //MIN
+		valor_diaria.datetime[3] = hora[2]; //SEG
+		valor_diaria.med.word = led + 0x0003;
+
+		EEPROM_SalvaMedia(valor_anual);
+		EEPROM_SalvaLeitura(valor_diaria);
+		//->BREAKPOINT: VIEW VARS<-//
+		valor_anual = EEPROM_PegaMedia(referencia.end_media.word);
+		valor_diaria = EEPROM_PegaLeitura(referencia.end_diaria.word);
+		//->BREAKPOINT: VIEW VARS<-//
+		Delay(1);
 	}
 }
 

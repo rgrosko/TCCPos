@@ -31,7 +31,7 @@ void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	atual->mes = datetime[4];
 	atual->ano = datetime[5];
 	//LIMPA MEMORIA
-	ResetMem();	
+	ResetMem();
 	//CALCULA OFFSET DE ESPACOS DA MEMORIA - AREA DE LEITURAS DIARIAS
 	if(datetime[5] <= 6) {
 		for(aux = 0; aux < 6; aux++) {
