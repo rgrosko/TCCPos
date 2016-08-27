@@ -1,5 +1,6 @@
 .metadata/
 *.log
 *.obj
-TCC\Debug
-TCC\Release
+TCC/Debug/
+TCC/Release/
+TCC/.settings/
