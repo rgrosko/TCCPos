@@ -61,6 +61,17 @@ int32_t rede, bateria = 0;
 char* recebeDadosBluetooth;
 const uint32_t halfseg = 1666666;//833333;
 
+void GPIO_Init() {
+	//INPUTS: PB2 - ENABLE READ / PD1 - COUNT
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+	GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_2);
+	GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_1);
+	//CONFIGURE GPIO INTERRUPT  (PD1 RISE AND DOWN)
+	GPIOIntTypeSet(GPIO_PORTD_BASE,GPIO_PIN_1,GPIO_BOTH_EDGES);
+	GPIOIntRegister(GPIO_PORTD_BASE,GPIODIntHandler);
+	GPIOIntEnable(GPIO_PORTD_BASE, GPIO_INT_PIN_1);
+}
 
 void Timer_Init() {
 	uint32_t ui32Period = 0;
@@ -121,6 +132,11 @@ void InitSensores() {
  void main(void) {
 	Inicia_Tiva();
 
+	REFTEMPO referencia;
+	uint8_t date[6] = {0x00,0x00,0x0C,0x1B,0x08,0x10};
+	uint8_t modo_atual = START;
+	uint16_t leituras_salvas= 0;
+
 
 	LCD_BlackLight_Enable();
 	LCD_Clear();
@@ -131,6 +147,7 @@ void InitSensores() {
 
 	Delay(2000);
 	LCD_Clear();
+	StartMonit(date, &referencia);
 
 	while(1) {
 		Delay(500);
@@ -146,6 +163,15 @@ void InitSensores() {
 		if( strcmp(temp, "atual") == 0 ){}
 		if( strcmp(temp, "anter") == 0 ){}
 		if( strcmp(temp, "histo") == 0 ){}
+
+		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
+		if(modo_atual == ENABLED)	{
+			TimerEnable(TIMER0_BASE, TIMER_A);
+		} else if(modo_atual == RESTART || modo_atual == DISABLED) {
+			TimerDisable(TIMER0_BASE, TIMER_A);
+			modo_atual = START;
+			Delay(1);
+		}
 
 		LCD_Process();
 	}
