@@ -114,6 +114,7 @@ void InitSensores() {
 	for (i = 0; i < 10; i++) {
 		rede = ADC_Read(ADC0_BASE);
 		bateria = ADC_Read(ADC1_BASE);
+		LCD_Process();
 	}
 }
 
@@ -121,7 +122,7 @@ void InitSensores() {
 	Inicia_Tiva();
 
 
-//	LCD_BlackLight_Enable();
+	LCD_BlackLight_Enable();
 	LCD_Clear();
 	LCD_Write("  Bem Vindo!!!", 0);
 	LCD_Write("Medidor de agua!", 1);
@@ -133,13 +134,18 @@ void InitSensores() {
 
 	while(1) {
 		Delay(500);
-//		LeSensores();
+
+		LeSensores();
+
 		recebeDadosBluetooth = Bluetooth_RecebeDados();
-		char recebe = recebeDadosBluetooth[1];
-		if (recebe == '1' )
-			OpenValve();
-		if(recebe == '2')
-			CloseValve();
+		char temp[5];
+		int i;
+		for(i = 0; i < 5; i++){
+			temp[i] = recebeDadosBluetooth[i];
+		}
+		if( strcmp(temp, "atual") == 0 ){}
+		if( strcmp(temp, "anter") == 0 ){}
+		if( strcmp(temp, "histo") == 0 ){}
 
 		LCD_Process();
 	}

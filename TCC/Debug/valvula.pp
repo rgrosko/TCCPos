@@ -10,6 +10,7 @@ valvula.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h
 valvula.obj: C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/string.h
 valvula.obj: C:/ti/TivaWare/inc/hw_types.h
 valvula.obj: C:/ti/TivaWare/inc/hw_memmap.h
+valvula.obj: C:/ti/TivaWare/inc/hw_gpio.h
 valvula.obj: C:/ti/TivaWare/driverlib/sysctl.h
 valvula.obj: C:/ti/TivaWare/driverlib/gpio.h
 valvula.obj: ../valvula.h
@@ -25,6 +26,7 @@ C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/_lock.h:
 C:/ti/ccsv5/tools/compiler/arm_5.1.1/include/string.h: 
 C:/ti/TivaWare/inc/hw_types.h: 
 C:/ti/TivaWare/inc/hw_memmap.h: 
+C:/ti/TivaWare/inc/hw_gpio.h: 
 C:/ti/TivaWare/driverlib/sysctl.h: 
 C:/ti/TivaWare/driverlib/gpio.h: 
 ../valvula.h: 

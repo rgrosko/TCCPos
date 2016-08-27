@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;TCC/MonitoraFluxo.c&apos; to &apos;monitorafluxo.c&apos;" description="Rename resource &apos;MonitoraFluxo.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="MonitoraFluxo.c" name="monitorafluxo.c" stamp="1471476091975" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;TCC/MonitoraFluxo.h&apos; to &apos;monitorafluxo.h&apos;" description="Rename resource &apos;MonitoraFluxo.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="MonitoraFluxo.h" name="monitorafluxo.h" stamp="1471476100993" updateReferences="true"/>
-</session>
