@@ -155,10 +155,11 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 	
 	DS1307_GetTime(time);	
 	if(time[2] > atual->hora && time[1] >= atual->minu){
+	//if(time[1] > atual->minu) {
 		DS1307_GetDate(data);
 		//PREENCHER LEITURA DA HORA NO MES ATUAL
 		if(atual->mes != data[1]) {	
-            if(atual->end_proxmes.word + 4467 < ANO1) { //limite da Ã¡rea
+            if(atual->end_proxmes.word + 4467 < ANO1) { //limite da area
 				atual->mes = data[1];
 				atual->end_diaria.word = atual->end_proxmes.word + 3;				
 				atual->end_proxmes.word = atual->end_proxmes.word + 4467;
@@ -169,20 +170,20 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 				atual->end_proxmes.word = MES2;				
 			}		
 						
-			leitura_hora.end.word = atual->end_diaria.word;
+			//leitura_hora.end.word = atual->end_diaria.word;
 			if(atual->ano == data[2]) {	
                 //ATUALIZA ESTRUTURA COM VALORES SALVOS			
 				leitura_media = EEPROM_PegaMedia(atual->end_media.word);				
 				if(leitura_media.acu_lo.word + *leitura_acumulada > 0xFFFF)								
 					leitura_media.acu_hi.word++;				
-				leitura_media.acu_lo.word = leitura_media.acu_lo.word + *leitura_acumulada;
+				leitura_media.acu_lo.word = leitura_media.acu_lo.word + ((*leitura_acumulada)/450); //Em uma hora, incrementa o valor a cada 8s
 				leitura_media.cnt_ms.word++;
 				EEPROM_SalvaMedia(leitura_media);
 			} else {
 				//PREPARA ESTRUTURA COM VALOR INICIAL
 				leitura_media.end.word = atual->end_proxano.word;
 				leitura_media.acu_hi.word = 0x0000;
-				leitura_media.acu_lo.word = *leitura_acumulada;
+				leitura_media.acu_lo.word = (*leitura_acumulada)/450; //Em uma hora, incrementa o valor a cada 8s
 				leitura_media.cnt_ms.word = 0x0001;
 				leitura_media.cnt_ag.word = 0x0000;				
 				EEPROM_SalvaMedia(leitura_media);
@@ -203,7 +204,7 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 		leitura_hora.datetime[1] = time[0]; //HOR
 		leitura_hora.datetime[2] = time[1]; //MIN
 		leitura_hora.datetime[3] = time[2]; //SEG
-		leitura_hora.med.word = *leitura_acumulada;
+		leitura_hora.med.word = (*leitura_acumulada)/450; //Em uma hora, incrementa o valor a cada 8s
 		atual->end_diaria.word = atual->end_diaria.word + 6;
 		atual->hora = time[2];
 		atual->minu = time[1];	
@@ -218,42 +219,26 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 //FUNCAO A SER POSICIONADA NO LOOP PRINCIPAL
 void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint16_t* leituras) {
 	if(!GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2)) {												 // IF ENABLED PB2
-		if(flag == 0x00) {											  							 //START READ CONDITION - F0X00
-			OpenValve();												  						 
+		if(*flag == 0x00) {											  							 //START READ CONDITION - F0X00
+			//OpenValve();
 			*flag = 0x01;
 			*tempo = 0;
 			*pulsos = 0;
-			//USAR VARIAVEL flag PARA HABILITAR O TIMER0 if(flag == 0x01)	TimerEnable(TIMER0_BASE, TIMER_A);
 		} else if (*tempo == 8 && *flag == 0x01) {                                              // MIDDLE OF COUNT / ONLY ONE TX WITH FLAG = 1
 			*leituras += (*pulsos/16);
 			CheckToSave(leituras, atual);
-			//->BREAKPOINT: VIEW VARS<-//
-			//Bluetooth_EnviaLeituraUnica(pulsos);  
-			/*****************************************
-			//todo: importar esta logica para a funcao acima
-			//FREQUENCY = ui16Pulso / 16;
-			sprintf(CPulso,"%d",(pulsos*2));
-			int ind = 0;
-			for(ind = 0; ind < 5; ind++)
-				UARTCharPut(UART0_BASE,CPulso[ind]);
-			UARTCharPut(UART0_BASE,'\r');
-			UARTCharPut(UART0_BASE,'\n');
-			******************************************/
+			//Bluetooth_EnviaLeituraUnica(pulsos);
 			*flag = 0x02;
 		} else if (*tempo >= 16) {			
 			*flag = 0x04;
-			//USAR VARIAVEL flag PARA DESABILITAR O TIMER0 E REINICIAR O FLAG PARA NOVAS OPERACOES
-			//if(flag == 0x04) { TimerDisable(TIMER0_BASE, TIMER_A); flag = 0x00; SysCtlDelay(83333); }
 		}
 	} else {																					  //IF DISABLED PB2
-		CloseValve();
+		//CloseValve();
 		//ATUALIZAR CONTADOR DE FALTA DE AGUA
 		EEPROM_Incrementa(atual->end_media.word);
 		*tempo = 0;
 		*pulsos = 0;
 		*flag = 0x08;
-		//USAR VARIAVEL flag PARA DESABILITAR O TIMER0 E REINICIAR O FLAG PARA NOVAS OPERACOES
-		//if(flag == 0x04) { TimerDisable(TIMER0_BASE, TIMER_A); flag = 0x00; SysCtlDelay(83333); }
 	}
 } 
 	         
