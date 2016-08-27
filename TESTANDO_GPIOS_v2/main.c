@@ -85,7 +85,9 @@ int main(void) {
 
 	//ENABLE LEDs (PF1: RED | PF2: BLUE | PF3: GREEN)
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
+	GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4);
 
 	//INPUTS: PD1 - ENABLE READ / PD2 - COUNT
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
@@ -128,7 +130,7 @@ int main(void) {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
 	TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 	//PERIOD: CLOCK_RATE / DESIRED FREQ. => 1/2 INTERRUPT
-	ui32Period = (SysCtlClockGet() / 1) / 2;//4; //-> qual é o período?
+	ui32Period = (SysCtlClockGet() / 1) / 2;//4; //1Hz
 	TimerLoadSet(TIMER0_BASE, TIMER_A, ui32Period -1);
 
 	//ENABLE TIMER INTERRUPT
@@ -181,6 +183,7 @@ int main(void) {
 				SysCtlDelay(10000000);
 			}
 		} else {																					  //IF DISABLED (PF0/SW2 RELEASE)
+			TimerDisable(TIMER0_BASE, TIMER_A);
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,LEDRED);	 		          //LED NO SIGNAL: RED
 			GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);		  							  //PD3 = 1 => CLOSE VALVE
 			ui8Tempo = 0;
@@ -195,9 +198,9 @@ void Timer0IntHandler(void) {
 	//CLEAR INTERRUPT FLAG
 	TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 	ui8Tempo++;
-	/*if(!GPIOPinRead(GPIO_PORTD_BASE, GPIO_PIN_0)) {
-		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, GPIO_PIN_0);
+	if(!GPIOPinRead(GPIO_PORTC_BASE, GPIO_PIN_4)) {
+		GPIOPinWrite(GPIO_PORTC_BASE, GPIO_PIN_4, 0x10);
 	} else {
-		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, 0x00);
-	}*/
+		GPIOPinWrite(GPIO_PORTC_BASE, GPIO_PIN_4, 0x00);
+	}
 }
