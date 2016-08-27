@@ -4,6 +4,7 @@
 
 #include "inc/hw_types.h"
 #include "inc/hw_memmap.h"
+#include "inc/hw_gpio.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/gpio.h"
 
@@ -12,6 +13,11 @@
 
 void Valvula_Init (void)
 {
+	//UNLOCK AND ENABLE SWITCHES: SW1 = PF4 / SW2 = PF0
+	HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+	HWREG(GPIO_PORTF_BASE + GPIO_O_CR) |= 0x01;
+	HWREG(GPIO_PORTF_BASE + GPIO_O_LOCK) = 0;
+
 	// Habilita GPIO
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
@@ -22,15 +28,6 @@ void Valvula_Init (void)
 	GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_3);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);
 	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_4);
-
-	// Programa como saída
-	/*GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_3);
-
-	// Programa como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7);
-
-	// Programa como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_7);*/
 }
 
 void OpenValve(void) {
@@ -48,7 +45,7 @@ void OpenValve(void) {
 
 void CloseValve(void) {
 	//ACIONA------------------------------------------
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x08); //CLOSE1
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x10); //CLOSE1
 	Delay(5);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x02); //CLOSE2
 	//DELAY-------------------------------------------
