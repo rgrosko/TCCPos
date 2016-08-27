@@ -17,14 +17,20 @@ void Valvula_Init (void)
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
+	//OUTPUTS: OPEN VALVE (PA2|PE3) / CLOSE VALVE (PF4|PF1)
+	GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_2);
+	GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_3);
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_4);
+
 	// Programa como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_3);
+	/*GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_3);
 
 	// Programa como saída
 	GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7);
 
 	// Programa como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_7);
+	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_7);*/
 }
 
 void OpenValve(void) {
