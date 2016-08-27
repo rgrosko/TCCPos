@@ -14,6 +14,7 @@
 #include "monitorafluxo.h"
 #include "utils.h"
 #include "valvula.h"
+#include "bluetooth.h"
 
 void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	B16 endereco;
@@ -152,6 +153,7 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 	DADOANUAL leitura_media;
 	uint8_t time[3]; //0) HORA - MINUTO - SEGUNDO
 	uint8_t data[3]; //0) DIA - MES - ANO
+	int div_leitura_hora = 225;
 	
 	DS1307_GetTime(time);	
 	if(time[2] > atual->hora && time[1] >= atual->minu){
@@ -176,14 +178,14 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 				leitura_media = EEPROM_PegaMedia(atual->end_media.word);				
 				if(leitura_media.acu_lo.word + *leitura_acumulada > 0xFFFF)								
 					leitura_media.acu_hi.word++;				
-				leitura_media.acu_lo.word = leitura_media.acu_lo.word + ((*leitura_acumulada)/450); //Em uma hora, incrementa o valor a cada 8s
+				leitura_media.acu_lo.word = leitura_media.acu_lo.word + ((*leitura_acumulada) / div_leitura_hora); //Em uma hora, incrementa o valor a cada 8s
 				leitura_media.cnt_ms.word++;
 				EEPROM_SalvaMedia(leitura_media);
 			} else {
 				//PREPARA ESTRUTURA COM VALOR INICIAL
 				leitura_media.end.word = atual->end_proxano.word;
 				leitura_media.acu_hi.word = 0x0000;
-				leitura_media.acu_lo.word = (*leitura_acumulada)/450; //Em uma hora, incrementa o valor a cada 8s
+				leitura_media.acu_lo.word = (*leitura_acumulada)/div_leitura_hora; //Em uma hora, incrementa o valor a cada 8s
 				leitura_media.cnt_ms.word = 0x0001;
 				leitura_media.cnt_ag.word = 0x0000;				
 				EEPROM_SalvaMedia(leitura_media);
@@ -204,7 +206,7 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 		leitura_hora.datetime[1] = time[0]; //HOR
 		leitura_hora.datetime[2] = time[1]; //MIN
 		leitura_hora.datetime[3] = time[2]; //SEG
-		leitura_hora.med.word = (*leitura_acumulada)/450; //Em uma hora, incrementa o valor a cada 8s
+		leitura_hora.med.word = (*leitura_acumulada)/div_leitura_hora; //Em uma hora, incrementa o valor a cada 8s
 		atual->end_diaria.word = atual->end_diaria.word + 6;
 		atual->hora = time[2];
 		atual->minu = time[1];	
@@ -227,7 +229,7 @@ void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint
 		} else if (*tempo == 8 && *flag == 0x01) {                                              // MIDDLE OF COUNT / ONLY ONE TX WITH FLAG = 1
 			*leituras += (*pulsos/16);
 			CheckToSave(leituras, atual);
-			//Bluetooth_EnviaLeituraUnica(pulsos);
+		    Bluetooth_EnviaMedicao(*pulsos);
 			*flag = 0x02;
 		} else if (*tempo >= 16) {			
 			*flag = 0x04;
