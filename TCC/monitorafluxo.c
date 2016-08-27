@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "valvula.h"
 #include "bluetooth.h"
+#include "lcd.h"
 
 void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	B16 endereco;
@@ -220,6 +221,7 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 //   GPIO PD1 -> pulsos ; leituras 
 //FUNCAO A SER POSICIONADA NO LOOP PRINCIPAL
 void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint16_t* leituras) {
+	char* CPulso;
 	if(!GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2)) {												 // IF ENABLED PB2
 		if(*flag == 0x00) {											  							 //START READ CONDITION - F0X00
 			//OpenValve();
@@ -231,7 +233,9 @@ void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint
 			CheckToSave(leituras, atual);
 		    Bluetooth_EnviaMedicao(*pulsos);
 			*flag = 0x02;
-		} else if (*tempo >= 16) {			
+			sprintf(CPulso,"F = %d Hz",(*pulsos/16));
+			LCD_Write(CPulso,2);
+		} else if (*tempo >= 16) {
 			*flag = 0x04;
 		}
 	} else {																					  //IF DISABLED PB2
