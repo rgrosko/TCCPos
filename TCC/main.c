@@ -199,6 +199,7 @@ void InitSensores() {
 		}
 		if(comando == '5'){
 	//	if( strcmp(temp, "ajust") == 0 ){
+			LCD_Clear();
 			LCD_Write("  RECEBENDO DADOS", 0);
 			//recebe data
 			char imprime[15];
@@ -229,7 +230,7 @@ void InitSensores() {
 			date[2] = ((auxTime[0] - 0x30 ) * 10) + (auxTime[1] - 0x30);
 			date[1] = ((auxTime[2] - 0x30 ) * 10) + (auxTime[3] - 0x30);
 			date[0] = ((auxTime[4] - 0x30 ) * 10) + (auxTime[5] - 0x30);
-			sprintf(imprime, "HORA %d/%d/%d", date[2], date[1], date[0]);
+			sprintf(imprime, "HORA %d:%d:%d", date[2], date[1], date[0]);
 			LCD_Write(imprime, 2);
 
 			Delay(1000);
