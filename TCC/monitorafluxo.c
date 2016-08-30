@@ -33,7 +33,7 @@ void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	atual->mes = datetime[4];
 	atual->ano = datetime[5];
 	//LIMPA MEMORIA
-	ResetMem();
+//	ResetMem(); Na main pelo bluetooth
 	//CALCULA OFFSET DE ESPACOS DA MEMORIA - AREA DE LEITURAS DIARIAS
 	if(datetime[5] <= 6) {
 		for(aux = 0; aux < 6; aux++) {
@@ -221,7 +221,7 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 //   GPIO PD1 -> pulsos ; leituras 
 //FUNCAO A SER POSICIONADA NO LOOP PRINCIPAL
 void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint16_t* leituras) {
-	char* CPulso;
+	char CPulso[14];
 	if(!GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2)) {												 // IF ENABLED PB2
 		if(*flag == 0x00) {											  							 //START READ CONDITION - F0X00
 			//OpenValve();

@@ -10,6 +10,7 @@
 
 #include "valvula.h"
 #include "utils.h"
+#include "lcd.h"
 
 void Valvula_Init (void)
 {
@@ -36,22 +37,26 @@ void OpenValve(void) {
 	Delay(5);
 	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_3, 0x08); //OPEN2
 	//DELAY-------------------------------------------
-	Delay(50);
+	Delay(100);
 	//RESETA------------------------------------------
 	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0x00); //OPEN1
 	Delay(5);
 	GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_3, 0x00); //OPEN2
+	LCD_Clear();
+	LCD_Process();
 }
 
 void CloseValve(void) {
 	//ACIONA------------------------------------------
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x10); //CLOSE1
-	Delay(5);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x02); //CLOSE2
+	Delay(5);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x10); //CLOSE1
 	//DELAY-------------------------------------------
-	Delay(50);
+	Delay(100);
 	//RESETA------------------------------------------
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, 0x00); //CLOSE1
 	Delay(5);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00); //CLOSE2
+	LCD_Clear();
+	LCD_Process();
 }

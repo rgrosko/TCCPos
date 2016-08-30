@@ -140,10 +140,10 @@ void InitSensores() {
 
 	LCD_BlackLight_Enable();
 	LCD_Clear();
-	LCD_Write("  Bem Vindo!!!", 0);
-	LCD_Write("Medidor de agua!", 1);
+	LCD_Write("    BEM VINDO!!!", 1);
+	LCD_Write("  MEDIDOR DE AGUA!", 2);
 
-	InitSensores();
+//	InitSensores();
 
 	Delay(2000);
 	LCD_Clear();
@@ -151,19 +151,106 @@ void InitSensores() {
 
 	while(1) {
 		Delay(500);
+//		LeSensores();
 
-		LeSensores();
+//		OpenValve();
+//		Delay(5000);
+//		CloseValve();
+//		Delay(5000);
 
 		recebeDadosBluetooth = Bluetooth_RecebeDados();
 		char temp[5];
+		char comando;
 		int i;
 		for(i = 0; i < 5; i++){
 			temp[i] = recebeDadosBluetooth[i];
 		}
-		if( strcmp(temp, "atual") == 0 ){}
-		if( strcmp(temp, "anter") == 0 ){}
-		if( strcmp(temp, "histo") == 0 ){}
+		comando = recebeDadosBluetooth[5];
+		if(comando == '1'){
+	//	if( strcmp(temp, "atual") == 0 ){
+			LCD_Write("       ENVIA", 0);
+			LCD_Write("      MEDICAO ", 1);
+			LCD_Write("       ATUAL", 2);
+			Delay(1000);
+			LCD_Clear();
+		}
+		if(comando == '2'){
+	//	if( strcmp(temp, "anter") == 0 ){
+			LCD_Write("       ENVIA", 0);
+			LCD_Write("        MES ", 1);
+			LCD_Write("     ANTERIOR", 2);
+			Delay(1000);
+			LCD_Clear();
+		}
+ 		if(comando == '3'){
+	//	if( strcmp(temp, "histo") == 0 ){
+			LCD_Write("       ENVIA ", 1);
+			LCD_Write("     HISTORICO", 2);
+			Delay(1000);
+			LCD_Clear();
+		}
+		if(comando == '4'){
+	//	if( strcmp(temp, "reset") == 0 ){
+			LCD_Clear();
+			LCD_Write("        RESET", 1);
+			LCD_Write("       MEMORIA", 2);
+			ResetMem();
+			LCD_Clear();
+		}
+		if(comando == '5'){
+	//	if( strcmp(temp, "ajust") == 0 ){
+			LCD_Write("  RECEBENDO DADOS", 0);
+			//recebe data
+			char imprime[15];
+			char auxData[6] = "999999";
+			Delay(1000);
+			while(auxData[0] == '9'){
+				Delay(200);
+				recebeDadosBluetooth = Bluetooth_RecebeDados();
+				for(i = 0; i < 6; i++){
+					auxData[i] = recebeDadosBluetooth[i];
+				}
+			}
+			date[5] = ((auxData[0] - 0x30 ) * 10) + (auxData[1] - 0x30);
+			date[4] = ((auxData[2] - 0x30 ) * 10) + (auxData[3] - 0x30);
+			date[3] = ((auxData[4] - 0x30 ) * 10) + (auxData[5] - 0x30);
+			sprintf(imprime, "DATA %d/%d/%d", date[5], date[4], date[3]);
+			LCD_Write(imprime, 1);
+			//recebe hora
+			char auxTime[6] = "999999";
+			Delay(1000);
+			while(auxTime[0] == '9'){
+				Delay(200);
+				recebeDadosBluetooth = Bluetooth_RecebeDados();
+				for(i = 0; i < 6; i++){
+					auxTime[i] = recebeDadosBluetooth[i];
+				}
+			}
+			date[2] = ((auxTime[0] - 0x30 ) * 10) + (auxTime[1] - 0x30);
+			date[1] = ((auxTime[2] - 0x30 ) * 10) + (auxTime[3] - 0x30);
+			date[0] = ((auxTime[4] - 0x30 ) * 10) + (auxTime[5] - 0x30);
+			sprintf(imprime, "HORA %d/%d/%d", date[2], date[1], date[0]);
+			LCD_Write(imprime, 2);
 
+			Delay(1000);
+			LCD_Clear();
+		}
+		if(comando == '6'){
+	//	if( strcmp(temp, "abrir") == 0 ){
+			OpenValve();
+			LCD_Write("    ABRE VALVULA", 0);
+			LCD_Write("---------/ /--------", 2);
+			Delay(1000);
+			LCD_Clear();
+		}
+		if(comando == '7'){
+	//	if( strcmp(temp, "fecha") == 0 ){
+			CloseValve();
+			LCD_Write("   FECHA VALVULA", 0);
+			LCD_Write("--------------------", 2);
+			Delay(1000);
+			LCD_Clear();
+		}
 		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
 		if(modo_atual == ENABLED)	{
 			TimerEnable(TIMER0_BASE, TIMER_A);
