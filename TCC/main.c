@@ -58,6 +58,7 @@ void GPIODIntHandler(void) {
 /************************************************/
 
 int32_t rede, bateria = 0;
+int index;
 char* recebeDadosBluetooth;
 const uint32_t halfseg = 1666666;//833333;
 
@@ -143,7 +144,7 @@ void InitSensores() {
 	LCD_Write("    BEM VINDO!!!", 1);
 	LCD_Write("  MEDIDOR DE AGUA!", 2);
 
-//	InitSensores();
+	InitSensores();
 
 	Delay(2000);
 	LCD_Clear();
@@ -151,7 +152,7 @@ void InitSensores() {
 
 	while(1) {
 		Delay(500);
-//		LeSensores();
+		LeSensores();
 
 //		OpenValve();
 //		Delay(5000);
@@ -159,12 +160,11 @@ void InitSensores() {
 //		Delay(5000);
 
 		recebeDadosBluetooth = Bluetooth_RecebeDados();
-		char temp[5];
 		char comando;
-		int i;
-		for(i = 0; i < 5; i++){
-			temp[i] = recebeDadosBluetooth[i];
-		}
+//		char temp[5];
+//		for(i = 0; i < 5; i++){
+//			temp[i] = recebeDadosBluetooth[i];
+//		}
 		comando = recebeDadosBluetooth[5];
 		if(comando == '1'){
 	//	if( strcmp(temp, "atual") == 0 ){
@@ -208,14 +208,14 @@ void InitSensores() {
 			while(auxData[0] == '9'){
 				Delay(200);
 				recebeDadosBluetooth = Bluetooth_RecebeDados();
-				for(i = 0; i < 6; i++){
-					auxData[i] = recebeDadosBluetooth[i];
+				for(index = 0; index < 6; index++){
+					auxData[index] = recebeDadosBluetooth[index];
 				}
 			}
-			date[5] = ((auxData[0] - 0x30 ) * 10) + (auxData[1] - 0x30);
+			date[3] = ((auxData[0] - 0x30 ) * 10) + (auxData[1] - 0x30);
 			date[4] = ((auxData[2] - 0x30 ) * 10) + (auxData[3] - 0x30);
-			date[3] = ((auxData[4] - 0x30 ) * 10) + (auxData[5] - 0x30);
-			sprintf(imprime, "DATA %d/%d/%d", date[5], date[4], date[3]);
+			date[5] = ((auxData[4] - 0x30 ) * 10) + (auxData[5] - 0x30);
+			sprintf(imprime, "DATA %d/%d/%d", date[3], date[4], date[5]);
 			LCD_Write(imprime, 1);
 			//recebe hora
 			char auxTime[6] = "999999";
@@ -223,8 +223,8 @@ void InitSensores() {
 			while(auxTime[0] == '9'){
 				Delay(200);
 				recebeDadosBluetooth = Bluetooth_RecebeDados();
-				for(i = 0; i < 6; i++){
-					auxTime[i] = recebeDadosBluetooth[i];
+				for(index = 0; index < 6; index++){
+					auxTime[index] = recebeDadosBluetooth[index];
 				}
 			}
 			date[2] = ((auxTime[0] - 0x30 ) * 10) + (auxTime[1] - 0x30);
@@ -234,6 +234,12 @@ void InitSensores() {
 			LCD_Write(imprime, 2);
 
 			Delay(1000);
+
+			//HORA - MINUTO - SEGUNDO
+			DS1307_SetTime(date[2],date[1],date[0]);
+			//DIA - MES - ANO
+			DS1307_SetDate(date[3],date[4],date[5]);
+
 			LCD_Clear();
 		}
 		if(comando == '6'){
