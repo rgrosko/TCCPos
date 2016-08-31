@@ -148,7 +148,7 @@ void ShowDateTime() {
 	Inicia_Tiva();
 
 	REFTEMPO referencia;
-	uint8_t date[6] = {0x00,0x00,0x0C,0x1B,0x08,0x10};
+	uint8_t date[6] = {0x00,0x00,0x00,0x00,0x00,0x00};
 	uint8_t modo_atual = START, aberta = 0x00;
 	uint16_t leituras_salvas= 0;
 
@@ -168,11 +168,6 @@ void ShowDateTime() {
 		Delay(250);
 		LeSensores();
 
-//		OpenValve();
-//		Delay(5000);
-//		CloseValve();
-//		Delay(5000);
-
 		recebeDadosBluetooth = Bluetooth_RecebeDados();
 		char comando;
 //		char temp[5];
@@ -188,13 +183,15 @@ void ShowDateTime() {
 			LCD_Write("       VALOR", 2);
 
 			DADOMEDIDA ultimo;
-			if(referencia.end_diaria.word - 3 != MES1)
+			uint16_t mes_atual = referencia.end_proxmes.word - 0x1173; //TODO revisar
+			if(referencia.end_diaria.word - 3 != mes_atual)
 				ultimo = EEPROM_PegaLeitura(referencia.end_diaria.word - 6);
 			else
 				ultimo.med.word = 0;
 			Bluetooth_EnviaMedicao(ultimo.med.word);
 
 			Delay(1000);
+			LCD_Clear();
 		}
 		if(comando == '2'){
 	//	if( strcmp(temp, "anter") == 0 ){
@@ -202,24 +199,45 @@ void ShowDateTime() {
 			LCD_Write("       ENVIA", 0);
 			LCD_Write("       MEDIA ", 1);
 			LCD_Write("       ANUAL", 2);
-            //TODO
-			DADOANUAL media;
-			if(referencia.end_diaria.word - 3 != MES1)
-				ultimo = EEPROM_PegaLeitura(referencia.end_diaria.word - 6);
-			else
-				ultimo.med.word = 0;
 
-			Bluetooth_EnviaMedicao(ultimo.med.word);
+			DADOANUAL media;
+			media = EEPROM_PegaMedia(referencia.end_proxano.word - 9);
+            uint32_t valor = ((media.acu_hi.word*65536) + media.acu_lo.word)/media.cnt_ms.word;
+			Bluetooth_EnviaMedicao(valor);
 
 			Delay(1000);
+			LCD_Clear();
 		}
  		if(comando == '3'){
 	//	if( strcmp(temp, "histo") == 0 ){
 			LCD_Clear();
 			LCD_Write("       ENVIA ", 1);
 			LCD_Write("     HISTORICO", 2);
-			//TODO
+
+			B16 cal;
+			uint16_t mem_mes = MES1;
+			uint8_t day[3];
+			uint8_t hour[3];
+			DADOMEDIDA hist;
+			int ind_mes;
+			for(ind_mes = 0; ind_mes < 6; ind_mes++) {
+				mem_mes = mem_mes + (ind_mes*0x1173);
+				cal = GetMesAno(mem_mes);
+				int ler;
+				for(ler = 0; ler < 744; ler++) {
+					hist = LeSequencia((ind_mes*0x1173), ler);
+					day[0] = hist.datetime[0];
+					day[1] = cal.byte[1];
+					day[2] = cal.byte[0];
+					hour[0] = hist.datetime[1];
+					hour[1] = hist.datetime[2];
+					hour[2] = hist.datetime[3];
+					Bluetooth_EnviaDados(hist.med.word, day, hour);
+				}
+			}
+
 			Delay(1000);
+			LCD_Clear();
 		}
 		if(comando == '4'){
 	//	if( strcmp(temp, "reset") == 0 ){
@@ -270,6 +288,7 @@ void ShowDateTime() {
 			DS1307_SetTime(date[2],date[1],date[0]);
 			//DIA - MES - ANO
 			DS1307_SetDate(date[3],date[4],date[5]);
+			LCD_Clear();
 		}
 		if(comando == '6'){
 	//	if( strcmp(temp, "abrir") == 0 ){
@@ -278,6 +297,7 @@ void ShowDateTime() {
 			LCD_Write("    ABRE VALVULA", 0);
 			LCD_Write("---------/ /--------", 2);
 			Delay(1000);
+			LCD_Clear();
 		}
 		if(comando == '7'){
 	//	if( strcmp(temp, "fecha") == 0 ){
@@ -286,6 +306,7 @@ void ShowDateTime() {
 			LCD_Write("   FECHA VALVULA", 0);
 			LCD_Write("--------------------", 2);
 			Delay(1000);
+			LCD_Clear();
 		}
 		if(comando == '8'){
 	//	if( strcmp(temp, "volts") == 0 ){
@@ -299,6 +320,7 @@ void ShowDateTime() {
 			sprintf(imprime, "REDE = %.2f V", volt); //12.4V -> 2.80V
 			LCD_Write(imprime, 2);
 			Delay(1000);
+			LCD_Clear();
 		}
 
 		ShowDateTime();
