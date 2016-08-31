@@ -102,7 +102,7 @@ void Inicia_Tiva() {
 void LeSensores() {
 
 	rede = ADC_Read(ADC0_BASE);
-//	bateria = ADC_Read(ADC1_BASE);
+	bateria = ADC_Read(ADC1_BASE);
 
 	if(rede <= 18)
 		LCD_BlackLight_Disable();
@@ -130,12 +130,26 @@ void InitSensores() {
 	}
 }
 
+void ShowDateTime() {
+	uint8_t tmp[3];
+	char imprime[20];
+	//LCD_Clear();
+
+	DS1307_GetDate(tmp);
+	sprintf(imprime, "%02d/%02d/%02d", tmp[0], tmp[1], tmp[2]);
+	LCD_WriteCol(imprime, 0, 0);
+
+	DS1307_GetTime(tmp);
+	sprintf(imprime, "%02d:%02d", tmp[0], tmp[1]);
+	LCD_WriteCol(imprime, 0, 12);
+}
+
  void main(void) {
 	Inicia_Tiva();
 
 	REFTEMPO referencia;
 	uint8_t date[6] = {0x00,0x00,0x0C,0x1B,0x08,0x10};
-	uint8_t modo_atual = START;
+	uint8_t modo_atual = START, aberta = 0x00;
 	uint16_t leituras_salvas= 0;
 
 
@@ -151,7 +165,7 @@ void InitSensores() {
 	StartMonit(date, &referencia);
 
 	while(1) {
-		Delay(500);
+		Delay(250);
 		LeSensores();
 
 //		OpenValve();
@@ -168,26 +182,44 @@ void InitSensores() {
 		comando = recebeDadosBluetooth[5];
 		if(comando == '1'){
 	//	if( strcmp(temp, "atual") == 0 ){
-			LCD_Write("       ENVIA", 0);
-			LCD_Write("      MEDICAO ", 1);
-			LCD_Write("       ATUAL", 2);
-			Delay(1000);
 			LCD_Clear();
+			LCD_Write("       ENVIA", 0);
+			LCD_Write("       ULTIMO", 1);
+			LCD_Write("       VALOR", 2);
+
+			DADOMEDIDA ultimo;
+			if(referencia.end_diaria.word - 3 != MES1)
+				ultimo = EEPROM_PegaLeitura(referencia.end_diaria.word - 6);
+			else
+				ultimo.med.word = 0;
+			Bluetooth_EnviaMedicao(ultimo.med.word);
+
+			Delay(1000);
 		}
 		if(comando == '2'){
 	//	if( strcmp(temp, "anter") == 0 ){
-			LCD_Write("       ENVIA", 0);
-			LCD_Write("        MES ", 1);
-			LCD_Write("     ANTERIOR", 2);
-			Delay(1000);
 			LCD_Clear();
+			LCD_Write("       ENVIA", 0);
+			LCD_Write("       MEDIA ", 1);
+			LCD_Write("       ANUAL", 2);
+            //TODO
+			DADOANUAL media;
+			if(referencia.end_diaria.word - 3 != MES1)
+				ultimo = EEPROM_PegaLeitura(referencia.end_diaria.word - 6);
+			else
+				ultimo.med.word = 0;
+
+			Bluetooth_EnviaMedicao(ultimo.med.word);
+
+			Delay(1000);
 		}
  		if(comando == '3'){
 	//	if( strcmp(temp, "histo") == 0 ){
+			LCD_Clear();
 			LCD_Write("       ENVIA ", 1);
 			LCD_Write("     HISTORICO", 2);
+			//TODO
 			Delay(1000);
-			LCD_Clear();
 		}
 		if(comando == '4'){
 	//	if( strcmp(temp, "reset") == 0 ){
@@ -195,7 +227,6 @@ void InitSensores() {
 			LCD_Write("        RESET", 1);
 			LCD_Write("       MEMORIA", 2);
 			ResetMem();
-			LCD_Clear();
 		}
 		if(comando == '5'){
 	//	if( strcmp(temp, "ajust") == 0 ){
@@ -215,7 +246,7 @@ void InitSensores() {
 			date[3] = ((auxData[0] - 0x30 ) * 10) + (auxData[1] - 0x30);
 			date[4] = ((auxData[2] - 0x30 ) * 10) + (auxData[3] - 0x30);
 			date[5] = ((auxData[4] - 0x30 ) * 10) + (auxData[5] - 0x30);
-			sprintf(imprime, "DATA %d/%d/%d", date[3], date[4], date[5]);
+			sprintf(imprime, "DATA %02d/%02d/%02d", date[3], date[4], date[5]);
 			LCD_Write(imprime, 1);
 			//recebe hora
 			char auxTime[6] = "999999";
@@ -230,7 +261,7 @@ void InitSensores() {
 			date[2] = ((auxTime[0] - 0x30 ) * 10) + (auxTime[1] - 0x30);
 			date[1] = ((auxTime[2] - 0x30 ) * 10) + (auxTime[3] - 0x30);
 			date[0] = ((auxTime[4] - 0x30 ) * 10) + (auxTime[5] - 0x30);
-			sprintf(imprime, "HORA %d:%d:%d", date[2], date[1], date[0]);
+			sprintf(imprime, "HORA %02d:%02d:%02d", date[2], date[1], date[0]);
 			LCD_Write(imprime, 2);
 
 			Delay(1000);
@@ -239,32 +270,58 @@ void InitSensores() {
 			DS1307_SetTime(date[2],date[1],date[0]);
 			//DIA - MES - ANO
 			DS1307_SetDate(date[3],date[4],date[5]);
-
-			LCD_Clear();
 		}
 		if(comando == '6'){
 	//	if( strcmp(temp, "abrir") == 0 ){
+			LCD_Clear();
 			OpenValve();
 			LCD_Write("    ABRE VALVULA", 0);
 			LCD_Write("---------/ /--------", 2);
 			Delay(1000);
-			LCD_Clear();
 		}
 		if(comando == '7'){
 	//	if( strcmp(temp, "fecha") == 0 ){
+			LCD_Clear();
 			CloseValve();
 			LCD_Write("   FECHA VALVULA", 0);
 			LCD_Write("--------------------", 2);
 			Delay(1000);
-			LCD_Clear();
 		}
+		if(comando == '8'){
+	//	if( strcmp(temp, "volts") == 0 ){
+			LCD_Clear();
+			LCD_Write("FONTES DE ENERGIAS", 0);
+			char imprime[10];
+			float volt = bateria / 1.67;
+			sprintf(imprime, "BATERIA = %.2f V", volt); // 9.0v -> 2.18V
+			LCD_Write(imprime, 1);
+			volt = rede / 2;
+			sprintf(imprime, "REDE = %.2f V", volt); //12.4V -> 2.80V
+			LCD_Write(imprime, 2);
+			Delay(1000);
+		}
+
+		ShowDateTime();
 		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
+
 		if(modo_atual == ENABLED)	{
 			TimerEnable(TIMER0_BASE, TIMER_A);
 		} else if(modo_atual == RESTART || modo_atual == DISABLED) {
 			TimerDisable(TIMER0_BASE, TIMER_A);
 			modo_atual = START;
 			Delay(1);
+		}
+
+		if(modo_atual != DISABLED) {
+			if(aberta == 0x00) {
+				OpenValve();
+				aberta = 0x01;
+			}
+		} else {
+			if(aberta == 0x01) {
+				CloseValve();
+				aberta = 0x00;
+			}
 		}
 
 		LCD_Process();
