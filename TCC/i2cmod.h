@@ -49,6 +49,8 @@ void DS1307_SetTime (int hora, int min, int seg);
 void DS1307_GetTime (uint8_t* time);
 
 void ResetMem(void);
+B16 GetMesAno(uint16_t mem_pos);
+DADOMEDIDA LeSequencia(uint16_t mes, uint16_t inc);
 void EEPROM_Define(uint16_t addr, uint8_t data);
 void EEPROM_MudaSemestre(uint8_t mes_inicial, uint8_t ano_inicial);
 void EEPROM_SalvaMedia(DADOANUAL dado_de_ano);

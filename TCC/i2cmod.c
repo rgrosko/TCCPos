@@ -227,6 +227,25 @@ void ResetMem()
 	}
 }
 
+B16 GetMesAno(uint16_t mem_pos) {
+	B16 mes_ano, end;
+	end.word = mem_pos;
+	mes_ano.byte[1] = EEPROM_Read(end.byte[1],end.byte[1]); //MES
+	end.word++;
+	mes_ano.byte[0] = EEPROM_Read(end.byte[1],end.byte[1]); //ANO
+	return mes_ano;
+}
+
+DADOMEDIDA LeSequencia(uint16_t mes, uint16_t inc) {
+	B16 end;
+	DADOMEDIDA lido;
+	end.word = mes;
+	mes = EEPROM_Read(end.byte[1],end.byte[0]);
+	end.word = end.word + 3 + (inc*6);
+	lido = EEPROM_PegaLeitura(end.word); //TODO revisar
+	return lido;
+}
+
 void EEPROM_Define(uint16_t addr, uint8_t data) {
 	B16 aux;
 	aux.word = addr;
@@ -239,7 +258,7 @@ void EEPROM_MudaSemestre(uint8_t mes_inicial, uint8_t ano_inicial) {
 	uint8_t mesoff[6];
 	uint8_t anooff[6];
 	
-	sem = EEPROM_Read(0x00,0x02);//lê o semestre de um dos meses (é o mesmo par todos)
+	sem = EEPROM_Read(0x00,0x02);//lê o semestre de um dos meses (é o mesmo para todos)
 	if(sem == 0x01) sem++;
 	else sem = 0x01;
 	
