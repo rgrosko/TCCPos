@@ -79,7 +79,9 @@ void Bluetooth_Disable(void)
 
 char* Bluetooth_RecebeDados(void)
 {
-	static char dado[9]= "00000000";
+	static char dado[9];
+	sprintf(dado, "00000000");
+
 	char aux;
 	int index = 0;
 	while(UARTCharsAvail(UART1_BASE)){
