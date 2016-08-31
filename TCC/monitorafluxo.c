@@ -24,7 +24,8 @@ void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	uint8_t anooff[6];
 	uint8_t decoff[10];
 	
-	//HORA - MINUTO - SEGUNDO
+/*	TODO realmente necessario
+ * //HORA - MINUTO - SEGUNDO
 	DS1307_SetTime(datetime[2],datetime[1],datetime[0]);
 	atual->hora = datetime[2];
 	atual->minu = datetime[1];
@@ -32,6 +33,7 @@ void StartMonit(uint8_t datetime[6], REFTEMPO* atual) {
 	DS1307_SetDate(datetime[3],datetime[4],datetime[5]);
 	atual->mes = datetime[4];
 	atual->ano = datetime[5];
+*/
 	//LIMPA MEMORIA
 //	ResetMem(); Na main pelo bluetooth
 	//CALCULA OFFSET DE ESPACOS DA MEMORIA - AREA DE LEITURAS DIARIAS
