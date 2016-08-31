@@ -64,6 +64,6 @@ int32_t ADC_Read(uint32_t sensor)
 	}
 
 	ADCSequenceDataGet(sensor, 0, ui32ADC0Value);
-	valor = ui32ADC0Value[0] / 124;
+	valor = ui32ADC0Value[0] / 136;
 	return valor;
 }
