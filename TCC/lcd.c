@@ -178,12 +178,12 @@ void LCD_Process ()
 {
 	if(process == 1)
 	{
-		LCD_WriteCol("+", 3, 18);
+		LCD_WriteCol("+", 3, 19);
 		process = 0;
 	}
 	else
 	{
-		LCD_WriteCol("-", 3, 18);
+		LCD_WriteCol("-", 3, 19);
 		process = 1;
 	}
 }
