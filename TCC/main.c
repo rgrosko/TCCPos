@@ -322,6 +322,14 @@ void ImprimeVolts(){
 	LCD_Clear();
 }
 
+void ImprimeStatusAgua(uint8_t aberta) {
+	if (aberta == 0x01)
+		LCD_Write("AGUA OK", 3);
+
+	if (aberta == 0x00)
+		LCD_Write("FALTA DE AGUA", 3);
+}
+
  void main(void) {
 	Inicia_Tiva();
 
@@ -381,6 +389,7 @@ void ImprimeVolts(){
 		}
 
 		ShowDateTime();
+		ImprimeStatusAgua(aberta);
 		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
 
 		if(modo_atual == ENABLED)	{
