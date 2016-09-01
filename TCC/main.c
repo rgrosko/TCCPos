@@ -59,7 +59,7 @@ const uint32_t halfseg = 1666666;//833333;
 
 void GPIODIntHandler(void) {
 	GPIOIntClear(GPIO_PORTD_BASE, GPIO_INT_PIN_1);
-	if(!GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2)) { //IF ENABLED (B2 == 0)
+	if(GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2) != 0) { //IF ENABLED -> PB2 != 0
 		pulsos_contados++;
 	}
 }
@@ -157,8 +157,8 @@ void EnviaValorAtual(const REFTEMPO* referencia) {
 	LCD_Write("       VALOR", 2);
 
 	DADOMEDIDA ultimo;
-	uint16_t mes_atual = referencia->end_proxmes.word - 0x1173; //TODO revisar
-	if (referencia->end_diaria.word - 3 != mes_atual)
+	uint16_t end_mes_atual = referencia->end_proxmes.word - 0x1173;
+	if (referencia->end_diaria.word - 3 != end_mes_atual)
 	ultimo = EEPROM_PegaLeitura(referencia->end_diaria.word - 6);
 	else
 	ultimo.med.word = 0;
@@ -322,7 +322,7 @@ void ImprimeVolts(){
 	LCD_Clear();
 }
 
-void ImprimeStatusAgua(uint8_t aberta) {
+void ImprimeStatusAgua() {
 	if (aberta == 0x01)
 		LCD_Write("AGUA OK", 3);
 
@@ -330,7 +330,7 @@ void ImprimeStatusAgua(uint8_t aberta) {
 		LCD_Write("FALTA DE AGUA", 3);
 }
 
- void main(void) {
+void main(void) {
 	Inicia_Tiva();
 
 	LCD_BlackLight_Enable();
@@ -389,27 +389,31 @@ void ImprimeStatusAgua(uint8_t aberta) {
 		}
 
 		ShowDateTime();
-		ImprimeStatusAgua(aberta);
+		ImprimeStatusAgua();
 		Scan(&referencia, &modo_atual, &tempo_passado, &pulsos_contados, &leituras_salvas);
 
-		if(modo_atual == ENABLED)	{
-			TimerEnable(TIMER0_BASE, TIMER_A);
-		} else if(modo_atual == RESTART || modo_atual == DISABLED) {
-			TimerDisable(TIMER0_BASE, TIMER_A);
-			modo_atual = START;
-			Delay(1);
-		}
-
-		if(modo_atual != DISABLED) {
-			if(aberta == 0x00) {
+		if(modo_atual != DISABLED) { 					// QUALQUER ESTADO DIFERENTE DE DISABLED TEM AGUA!
+			if(aberta == 0x00) {     					// SE VALVULA AINDA FECHADA, ABRIR VALVULA
 				OpenValve();
 				aberta = 0x01;
 			}
-		} else {
-			if(aberta == 0x01) {
+
+			if(modo_atual == ENABLED)	{               // DETECTOU AGUA, INICIA MONITORAMENTO COM TIMER
+				TimerEnable(TIMER0_BASE, TIMER_A);
+			} else if(modo_atual == RESTART ) {         // TEMPO DE LEITURA, PREPARO E ENVIO (16s) -> REINICIA PROCESSO
+				TimerDisable(TIMER0_BASE, TIMER_A);
+				modo_atual = START;
+				Delay(1);
+			}
+		} else {									     // ESTADO DESABILITADO, FALTA AGUA
+			if(aberta == 0x01) {						 // SE VALVULA AINDA ABERTA, FECHA VALVULA
 				CloseValve();
 				aberta = 0x00;
 			}
+
+			TimerDisable(TIMER0_BASE, TIMER_A); 		 // PREPARA PARA REINICIAR ASSIM QUE VOLTAR A AGUA, REHABILITAR
+			modo_atual = START;
+			Delay(1);
 		}
 
 		LCD_Process();

@@ -224,24 +224,24 @@ void CheckToSave(uint16_t* leitura_acumulada, REFTEMPO* atual) {
 //FUNCAO A SER POSICIONADA NO LOOP PRINCIPAL
 void Scan(REFTEMPO* atual, uint8_t* flag, uint8_t* tempo, uint16_t* pulsos, uint16_t* leituras) {
 	char CPulso[14];
-	if(!GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2)) {												 // IF ENABLED PB2
-		if(*flag == 0x00) {											  							 //START READ CONDITION - F0X00
-			//OpenValve();
+	if(GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2) != 0) {											 // IF ENABLED -> PB2 != 0
+		if(*flag == 0x00) {											  							 // START READ CONDITION - F0X00
 			*flag = 0x01;
 			*tempo = 0;
 			*pulsos = 0;
-		} else if (*tempo == 8 && *flag == 0x01) {                                              // MIDDLE OF COUNT / ONLY ONE TX WITH FLAG = 1
+		} else if (*tempo == 8 && *flag == 0x01) {                                               // MIDDLE OF COUNT / ONLY ONE TX WITH FLAG = 1
 			*leituras += (*pulsos/16);
 			CheckToSave(leituras, atual);
 		    Bluetooth_EnviaMedicao(*pulsos);
 			*flag = 0x02;
-			sprintf(CPulso,"F = %d Hz",(*pulsos/16));
+			float freq = *pulsos/16;
+			float vaz = freq*3.57;
+			sprintf(CPulso,"F= %05.1f - V= %05.1f",freq,vaz);
 			LCD_Write(CPulso,2);
 		} else if (*tempo >= 16) {
 			*flag = 0x04;
 		}
-	} else {																					  //IF DISABLED PB2
-		//CloseValve();
+	} else {																					  //IF DISABLED -> PB2 == 0
 		//ATUALIZAR CONTADOR DE FALTA DE AGUA
 		EEPROM_Incrementa(atual->end_media.word);
 		*tempo = 0;
