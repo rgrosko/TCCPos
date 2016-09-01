@@ -101,6 +101,7 @@ void Inicia_Tiva() {
 	Bluetooth_Init();
 	I2C_Init();
 	Valvula_Init();
+	GPIO_Init();
 	Timer_Init();
 }
 
