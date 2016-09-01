@@ -13,7 +13,7 @@
 // D4 - PB4
 // D5 - PB5
 // D6 - PB6
-// D7 - PB7
+// D7 - PB6 - muda por curto existente na tiva
 //----------------------------------------------------------
 
 int process = 0;
@@ -38,7 +38,7 @@ void LCD_Init (void)
 	GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7);
 
 	// Programa como saída
-	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_7);
+	GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_6);
 
 	// EN=1
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x08);
@@ -195,12 +195,12 @@ void LCD_Clear (void)
 
 void LCD_BlackLight_Enable (void)
 {
-	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_7, 0x80);
+	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_6, 0x40);
 }
 
 void LCD_BlackLight_Disable (void)
 {
-	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_7, 0x00);
+	GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_6, 0x00);
 }
 
 char *IntToStr(int value, char *s, int radix)
